@@ -31,6 +31,10 @@ Dự án hiện tại được xây dựng bằng kiến trúc **Client-Server**
   * **Vẽ Canvas:** Xử lý việc vẽ lưới (grid), tạo và nối 4 điểm góc (A, B, C, D) thành hình tứ giác tương tác.
   * **Toán học & Hình học:** Lắng nghe sự kiện kéo thả chuột, tính toán khoảng cách (độ dài cạnh, đường chéo), góc giữa các cạnh (Sử dụng Vector và Dot/Cross Product).
   * **Nhận diện thông minh:** Dựa vào dung sai khi kéo thả, tự động phân loại hình dạng (Hình vuông, chữ nhật, bình hành, thang, thoi, v.v.) và liên kết với dữ liệu từ `app.js` để hiển thị công thức, tính chất tương ứng.
+* **`static/js/exit8.js`**: File logic điều khiển minigame "The Exit 8".
+  * Gameplay sinh tồn: Người chơi đi qua 8 hành lang, chọn 1 trong 2 cánh cửa (Xanh hoặc Đỏ).
+  * Phân loại bẫy: Cửa bẫy sẽ buộc người chơi giải bài tập toán học với giới hạn thời gian (áp lực thời gian giảm dần theo số cửa).
+  * Cơ chế gọi API: Tự động tải câu hỏi tương ứng với Khối lớp đã chọn lúc bắt đầu game.
 * **`static/css/style.css` (nếu có)**: Chứa các tùy chỉnh CSS về màu sắc, kích thước, hiệu ứng không có sẵn trong Bootstrap.
 
 ---
