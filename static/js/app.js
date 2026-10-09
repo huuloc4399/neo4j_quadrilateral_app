@@ -710,20 +710,37 @@ async function openExerciseModal(preselectedShapeId = null) {
     }
 }
 
+let currentExerciseShape = "all";
+let currentExerciseGrade = "all";
+
 function filterExercises(shapeId, btnElement) {
-    document.querySelectorAll("#exerciseFilterBar .filter-btn").forEach(b => {
-        b.classList.remove("btn-dark", "active");
-        b.classList.add("btn-outline-secondary");
-    });
-    if (btnElement) {
-        btnElement.classList.remove("btn-outline-secondary");
-        btnElement.classList.add("btn-dark", "active");
+    if (shapeId !== undefined) {
+        currentExerciseShape = shapeId;
+        document.querySelectorAll("#exerciseFilterBar .filter-btn").forEach(b => {
+            b.classList.remove("btn-dark", "active");
+            b.classList.add("btn-outline-secondary");
+        });
+        if (btnElement) {
+            btnElement.classList.remove("btn-outline-secondary");
+            btnElement.classList.add("btn-dark", "active");
+        }
     }
+    applyExerciseFilters();
+}
 
-    const list = shapeId === "all"
-        ? globalExercises
-        : globalExercises.filter(ex => ex.shape_id === shapeId);
+function filterExercisesByGrade(grade) {
+    currentExerciseGrade = grade;
+    applyExerciseFilters();
+}
 
+function applyExerciseFilters() {
+    let list = globalExercises;
+    if (currentExerciseShape !== "all") {
+        list = list.filter(ex => ex.shape_id === currentExerciseShape);
+    }
+    if (currentExerciseGrade !== "all") {
+        list = list.filter(ex => String(ex.grade) === String(currentExerciseGrade));
+    }
     renderExerciseList(list);
 }
 
@@ -827,7 +844,26 @@ async function startQuiz() {
 
     try {
         const res = await fetch("/api/quiz");
-        quizQuestions = await res.json();
+        let allQuizzes = await res.json();
+        
+        const gradeSelect = document.getElementById("quizGradeFilter");
+        const selectedGrade = gradeSelect ? gradeSelect.value : "all";
+        
+        if (selectedGrade !== "all") {
+            // Lọc quiz theo lớp, các quiz mặc định từ Neo4j chưa có lớp sẽ được tính vào lớp 8
+            quizQuestions = allQuizzes.filter(q => {
+                const qGrade = q.grade || 8; 
+                return String(qGrade) === String(selectedGrade);
+            });
+        } else {
+            quizQuestions = allQuizzes;
+        }
+
+        if (quizQuestions.length === 0) {
+            body.innerHTML = `<div class="text-center py-5 text-muted"><i class="bi bi-inbox fs-1"></i><br>Chưa có câu hỏi trắc nghiệm nào cho khối lớp này!</div>`;
+            return;
+        }
+
         currentQuizIndex = 0;
         quizEarnedScore = 0;
         quizEarnedCoins = 0;
