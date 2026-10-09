@@ -46,10 +46,14 @@ window.addEventListener("DOMContentLoaded", () => {
                 loadKnowledgeGraph();
             } else {
                 setTimeout(() => {
-                    kgNetwork.setSize("100%", "100%");
+                    const container = document.getElementById("kgNetwork");
+                    if(container.offsetHeight > 0) {
+                        kgNetwork.setSize(container.offsetWidth + "px", container.offsetHeight + "px");
+                    }
                     kgNetwork.redraw();
                     kgNetwork.fit({ animation: { duration: 400, easingFunction: "easeInOutQuad" } });
-                }, 100);
+                    window.dispatchEvent(new Event('resize'));
+                }, 50);
             }
         });
     }
@@ -59,10 +63,14 @@ window.addEventListener("DOMContentLoaded", () => {
         treeTabBtn.addEventListener("shown.bs.tab", () => {
             if (treeNetwork) {
                 setTimeout(() => {
-                    treeNetwork.setSize("100%", "100%");
+                    const container = document.getElementById("treeNetwork");
+                    if(container.offsetHeight > 0) {
+                        treeNetwork.setSize(container.offsetWidth + "px", container.offsetHeight + "px");
+                    }
                     treeNetwork.redraw();
                     treeNetwork.fit({ animation: { duration: 400, easingFunction: "easeInOutQuad" } });
-                }, 100);
+                    window.dispatchEvent(new Event('resize'));
+                }, 50);
             }
         });
     }
