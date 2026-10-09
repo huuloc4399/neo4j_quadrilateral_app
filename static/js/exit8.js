@@ -18,7 +18,7 @@ function renderExit8Start() {
     const body = document.getElementById("exit8Body");
     body.innerHTML = `
         <h1 class="display-4 fw-bold text-danger mb-3" style="font-family: 'JetBrains Mono', monospace; text-shadow: 0 0 15px rgba(220,53,69,0.5);">THE EXIT 8</h1>
-        <p class="lead mb-4 text-light">Bạn đang bị kẹt trong một hành lang vô tận...<br>Hãy chọn đúng ${exit8TargetDoor} cánh cửa an toàn liên tiếp để thoát ra. <br>Nếu dính bẫy, bạn buộc phải giải một bài toán sinh tử với thời gian ngày càng rút ngắn!</p>
+        <p class="lead mb-4 text-light">Bạn đang bị kẹt trong một hành lang vô tận...<br>Hãy chọn đúng ${exit8TargetDoor} cánh cửa an toàn liên tiếp để thoát ra. <br>Nếu dính bẫy, bạn buộc phải giải một bài toán với thời gian giới hạn!</p>
         
         <div class="mb-4 w-50" style="min-width: 250px;">
             <label class="form-label fw-bold text-warning">Chọn cấp độ sinh tồn (Khối lớp):</label>
@@ -34,7 +34,7 @@ function renderExit8Start() {
         </div>
         
         <button class="btn btn-danger btn-lg px-5 fw-bold rounded-pill shadow" onclick="startExit8Game()">
-            <i class="bi bi-play-fill me-1"></i> BẮT ĐẦU TRÒ CHƠI
+            <i class="bi bi-play-fill me-1"></i> START
         </button>
     `;
 }
@@ -42,16 +42,16 @@ function renderExit8Start() {
 async function startExit8Game() {
     exit8SelectedGrade = document.getElementById("exit8GradeSelect").value;
     const body = document.getElementById("exit8Body");
-    
+
     body.innerHTML = `
         <div class="spinner-border text-danger" role="status" style="width: 3rem; height: 3rem;"></div>
-        <h4 class="mt-3 text-danger">Đang tạo chiều không gian...</h4>
+        <h4 class="mt-3 text-danger">Loading...</h4>
     `;
 
     try {
         const res = await fetch("/api/quiz");
         const allQuestions = await res.json();
-        
+
         exit8Questions = allQuestions.filter(q => {
             const qGrade = q.grade || 8;
             return String(qGrade) === String(exit8SelectedGrade);
@@ -64,32 +64,32 @@ async function startExit8Game() {
 
         exit8CurrentDoor = 1;
         renderExit8Hallway();
-    } catch(err) {
-        body.innerHTML = `<div class="alert alert-danger">Lỗi kết nối tà thuật... Vui lòng thử lại.</div>`;
+    } catch (err) {
+        body.innerHTML = `<div class="alert alert-danger">Lỗi kết nối... Vui lòng thử lại.</div>`;
     }
 }
 
 function renderExit8Hallway() {
     exit8StopTimer();
     const body = document.getElementById("exit8Body");
-    
+
     body.innerHTML = `
         <div class="mb-4">
             <h5 class="text-secondary text-uppercase" style="letter-spacing: 5px;">Hành lang số</h5>
             <h1 class="display-1 fw-bold text-white mb-0" style="font-family: 'JetBrains Mono', monospace;">${exit8CurrentDoor}</h1>
         </div>
-        <p class="mb-5 fs-5 text-light">Phía trước là hai cánh cửa. Một cánh an toàn, một cánh là bẫy tử thần.<br>Số phận của bạn nằm ở quyết định này.</p>
+        <p class="mb-5 fs-5 text-light">Phía trước là hai cánh cửa. Một cánh an toàn, một cánh là bẫy tử thần.<br></p>
         
         <div class="d-flex gap-4 justify-content-center w-100 flex-wrap">
-            <div class="door-card bg-success text-white p-5 rounded-4 shadow position-relative overflow-hidden" 
-                 style="cursor:pointer; transition: 0.2s; min-width: 220px;"
-                 onclick="chooseExit8Door('green')" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            <div class="door-card bg-primary text-white p-4 rounded-4 shadow position-relative overflow-hidden d-flex flex-column justify-content-center align-items-center" 
+                 style="cursor:pointer; transition: 0.2s; width: 250px; height: 250px;"
+                 onclick="chooseExit8Door('blue')" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                 <i class="bi bi-door-closed-fill" style="font-size: 6rem; text-shadow: 0 4px 10px rgba(0,0,0,0.5);"></i>
                 <h3 class="fw-bold mt-3 mb-0" style="letter-spacing: 2px;">CỬA XANH</h3>
             </div>
             
-            <div class="door-card bg-danger text-white p-5 rounded-4 shadow position-relative overflow-hidden"
-                 style="cursor:pointer; transition: 0.2s; min-width: 220px;"
+            <div class="door-card bg-danger text-white p-4 rounded-4 shadow position-relative overflow-hidden d-flex flex-column justify-content-center align-items-center"
+                 style="cursor:pointer; transition: 0.2s; width: 250px; height: 250px;"
                  onclick="chooseExit8Door('red')" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                 <i class="bi bi-door-closed-fill" style="font-size: 6rem; text-shadow: 0 4px 10px rgba(0,0,0,0.5);"></i>
                 <h3 class="fw-bold mt-3 mb-0" style="letter-spacing: 2px;">CỬA ĐỎ</h3>
@@ -101,7 +101,7 @@ function renderExit8Hallway() {
 function chooseExit8Door(color) {
     // 50% chance of trap
     const isTrap = Math.random() < 0.5;
-    
+
     if (isTrap) {
         triggerExit8Trap();
     } else {
@@ -124,13 +124,13 @@ function chooseExit8Door(color) {
 
 function triggerExit8Trap() {
     exit8CurrentTrapQuestion = exit8Questions[Math.floor(Math.random() * exit8Questions.length)];
-    
+
     // Time calculation: 30s max, reduces by 3s each door. Min 6s.
     exit8TimeLeft = 30 - ((exit8CurrentDoor - 1) * 3);
-    if (exit8TimeLeft < 6) exit8TimeLeft = 6; 
-    
+    if (exit8TimeLeft < 6) exit8TimeLeft = 6;
+
     renderExit8TrapScreen();
-    
+
     exit8Timer = setInterval(() => {
         exit8TimeLeft--;
         const timerEl = document.getElementById("exit8TimerDisplay");
@@ -142,7 +142,7 @@ function triggerExit8Trap() {
                 timerEl.style.transform = "scale(1.2)";
             }
         }
-        
+
         if (exit8TimeLeft <= 0) {
             exit8StopTimer();
             handleExit8TrapAnswer(false, "HẾT GIỜ!");
@@ -153,7 +153,7 @@ function triggerExit8Trap() {
 function renderExit8TrapScreen() {
     const body = document.getElementById("exit8Body");
     const q = exit8CurrentTrapQuestion;
-    
+
     // Shuffle options
     let opts = [...q.options];
     opts.sort(() => Math.random() - 0.5);
@@ -196,13 +196,12 @@ function renderExit8TrapScreen() {
 function handleExit8TrapAnswer(isCorrect, reason = "SAI ĐÁP ÁN!") {
     exit8StopTimer();
     const body = document.getElementById("exit8Body");
-    
+
     if (isCorrect) {
         body.innerHTML = `
             <div class="text-success text-center">
                 <i class="bi bi-shield-fill-check" style="font-size: 7rem; text-shadow: 0 0 20px #198754;"></i>
-                <h2 class="fw-bold mt-3 text-uppercase">Phá bẫy thành công!</h2>
-                <p class="fs-5 text-light">Bạn đã sử dụng tri thức để tự cứu mình. Tiến lên nào!</p>
+                <h2 class="fw-bold mt-3 text-uppercase">Đáp án chính xác!</h2>
             </div>
         `;
         exit8CurrentDoor++;
@@ -220,12 +219,14 @@ function handleExit8TrapAnswer(isCorrect, reason = "SAI ĐÁP ÁN!") {
                 <h1 class="fw-bold mt-3 text-uppercase display-5">${reason}</h1>
                 <p class="fs-5 mb-4 text-light">Hành trình kết thúc tại cửa số <strong>${exit8CurrentDoor}</strong>.</p>
                 
-                <div class="alert alert-dark bg-opacity-75 text-start mb-5 border-secondary text-light">
-                    <h6 class="text-danger fw-bold"><i class="bi bi-journal-x me-2"></i>Ôn tập lại kiến thức:</h6>
-                    <hr class="border-secondary mt-1 mb-2">
-                    <div class="mb-2"><strong>Câu hỏi:</strong> ${exit8CurrentTrapQuestion.question}</div>
-                    <div class="mb-2 text-success"><strong>Đáp án đúng:</strong> ${exit8CurrentTrapQuestion.answer}</div>
-                    <div class="text-warning small"><strong>Giải thích:</strong> ${exit8CurrentTrapQuestion.explain || 'Không có giải thích.'}</div>
+                <div class="card bg-dark text-start mb-5 border-secondary shadow-lg w-100">
+                    <div class="card-body">
+                        <h6 class="text-danger fw-bold"><i class="bi bi-journal-x me-2"></i>Ôn tập lại kiến thức:</h6>
+                        <hr class="border-secondary mt-1 mb-3">
+                        <div class="mb-3 text-light" style="font-size: 1.1rem;"><strong>Câu hỏi:</strong> ${exit8CurrentTrapQuestion.question}</div>
+                        <div class="mb-3 text-success fw-bold" style="font-size: 1.1rem;"><strong>Đáp án đúng:</strong> ${exit8CurrentTrapQuestion.answer}</div>
+                        <div class="text-warning bg-black bg-opacity-50 p-3 rounded" style="font-size: 1rem;"><strong>Giải thích:</strong> ${exit8CurrentTrapQuestion.explain || 'Không có giải thích.'}</div>
+                    </div>
                 </div>
                 
                 <button class="btn btn-outline-light btn-lg px-5 fw-bold rounded-pill" onclick="renderExit8Start()">
@@ -239,12 +240,12 @@ function handleExit8TrapAnswer(isCorrect, reason = "SAI ĐÁP ÁN!") {
 function renderExit8Victory() {
     exit8StopTimer();
     const body = document.getElementById("exit8Body");
-    
+
     // Add rewards
     if (typeof currentScore !== 'undefined') currentScore += 200;
     if (typeof currentCoins !== 'undefined') currentCoins += 100;
     if (typeof updatePlayerUI === "function") updatePlayerUI();
-    
+
     // Epic confetti
     const duration = 3 * 1000;
     const end = Date.now() + duration;
@@ -272,11 +273,11 @@ function renderExit8Victory() {
         <div class="text-warning text-center w-100">
             <i class="bi bi-door-open-fill" style="font-size: 8rem; text-shadow: 0 0 50px #ffc107;"></i>
             <h1 class="fw-bold mt-2 display-3" style="font-family: 'JetBrains Mono', monospace;">THOÁT HIỂM!</h1>
-            <p class="fs-4 text-white mb-4">Chúc mừng! Bạn đã chinh phục thành công 8 cánh cửa sinh tử.</p>
+            <p class="fs-4 text-white mb-4">Chúc mừng!</p>
             
             <div class="card bg-dark border-warning mx-auto mb-5" style="max-width: 400px;">
                 <div class="card-body">
-                    <h5 class="text-light mb-3">Phần Thưởng Kẻ Sống Sót</h5>
+                    <h5 class="text-light mb-3">Phần Thưởng</h5>
                     <div class="d-flex justify-content-center gap-3">
                         <span class="badge bg-primary fs-5 px-3 py-2 border border-primary"><i class="bi bi-star-fill me-1"></i> +200 Điểm</span>
                         <span class="badge bg-warning text-dark fs-5 px-3 py-2 border border-warning"><i class="bi bi-coin me-1"></i> +100 Xu</span>
