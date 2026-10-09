@@ -1,0 +1,481 @@
+/* ==============================================================================
+   STYLE FOR QUADRILATERAL KNOWLEDGE GRAPH APP (NEO4J CLOUD)
+   ============================================================================== */
+
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --primary-light: #eff6ff;
+    --dark-bg: #0f172a;
+    --surface-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --accent-warning: #f59e0b;
+    --accent-success: #10b981;
+    --accent-danger: #ef4444;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--surface-bg);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    color: var(--text-primary);
+}
+
+/* TOP NAVBAR */
+.app-navbar {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    padding: 10px 18px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    z-index: 1000;
+}
+
+.logo-box {
+    background: rgba(37, 99, 235, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 10px;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #f8fafc;
+    line-height: 1.2;
+}
+
+.brand-subtitle {
+    font-size: 0.76rem;
+    font-weight: 500;
+}
+
+/* USER PILL */
+.user-pill {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border-radius: 30px;
+    padding: 4px 12px 4px 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.user-pill:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.avatar-icon {
+    width: 30px;
+    height: 30px;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+}
+
+.player-name {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.score-badge {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fef08a;
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    font-size: 0.72rem;
+    padding: 2px 6px;
+}
+
+.coin-badge {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 0.72rem;
+    padding: 2px 6px;
+}
+
+/* ACTION BUTTONS */
+.action-btn-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-nav {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #f8fafc;
+    border-radius: 8px;
+    padding: 6px 11px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+}
+
+.btn-nav:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.btn-quiz-primary {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    border: none;
+    color: #0f172a;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 0.84rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    transition: all 0.2s ease;
+}
+
+.btn-quiz-primary:hover {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(245, 158, 11, 0.45);
+}
+
+/* SUB NAVIGATION TABS */
+.custom-tabs .nav-link {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 6px 14px;
+    transition: all 0.15s ease;
+}
+
+.custom-tabs .nav-link:hover {
+    color: var(--primary-color);
+    background-color: var(--primary-light);
+}
+
+.custom-tabs .nav-link.active {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+
+.custom-tabs .nav-link.active i {
+    color: #ffffff !important;
+}
+
+/* WORKSPACE LAYOUT & TAB CONTAINERS */
+#mainTabContent {
+    flex: 1 1 0%;
+    min-height: 0;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+#mainTabContent > .tab-pane {
+    height: 100%;
+    min-height: 0;
+}
+
+#mainTabContent > .tab-pane.active {
+    height: 100%;
+}
+
+#tab-tree.active {
+    display: flex !important;
+    height: 100%;
+}
+
+#tab-kg.active {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+}
+
+.network-container {
+    background: #ffffff;
+    border-right: 1px solid var(--border-color);
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+}
+
+#treeNetwork {
+    width: 100%;
+    height: 100%;
+}
+
+#kgNetworkWrapper {
+    flex: 1 1 0%;
+    min-height: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+#kgNetwork {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100% !important;
+    height: 100% !important;
+    background: #ffffff;
+}
+
+.details-panel {
+    width: 440px;
+    max-width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background: #ffffff;
+    padding: 20px;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* GRAPH LEGEND & CONTROLS */
+.graph-legend {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 10px 14px;
+    max-width: 340px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.legend-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.legend-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.legend-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+
+.badge-root { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
+.badge-quad { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
+.badge-sub { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+.badge-king { background: #fce7f3; color: #be185d; border-color: #fbcfe8; }
+
+.network-controls {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+}
+
+/* DETAILS CARD ELEMENTS */
+.tip-box {
+    background: #fffbeb;
+    border: 1px solid #fef08a;
+    border-left: 4px solid #f59e0b;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.tip-title {
+    font-size: 0.76rem;
+    font-weight: 800;
+    color: #92400e;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 4px;
+}
+
+.tip-body {
+    font-size: 0.85rem;
+    color: #451a03;
+    line-height: 1.5;
+}
+
+.formula-tag {
+    font-family: 'JetBrains Mono', monospace;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    color: #d946ef;
+    font-size: 0.88rem;
+    display: inline-block;
+}
+
+.section-label {
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+}
+
+/* KNOWLEDGE GRAPH LEGEND */
+.kg-legend {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 8px 14px;
+    z-index: 10;
+}
+
+/* VS CIRCLE (COMPARE) */
+.vs-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* QUIZ OPTION BUTTONS */
+.quiz-opt-btn {
+    text-align: left;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    line-height: 1.4;
+    transition: all 0.15s ease;
+    border: 1.5px solid var(--border-color);
+    background: #ffffff;
+    color: var(--text-primary);
+}
+
+.quiz-opt-btn:hover:not([disabled]) {
+    background: var(--primary-light);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.quiz-opt-btn.correct-opt {
+    background: #dcfce7 !important;
+    border-color: #10b981 !important;
+    color: #065f46 !important;
+    font-weight: 700;
+}
+
+.quiz-opt-btn.wrong-opt {
+    background: #fee2e2 !important;
+    border-color: #ef4444 !important;
+    color: #991b1b !important;
+    font-weight: 700;
+}
+
+/* STAT CARDS */
+.stat-card {
+    transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+.max-w-1200 {
+    max-width: 1200px;
+}
+
+/* RESPONSIVE LAYOUT */
+@media (max-width: 768px) {
+    #tab-tree .d-flex {
+        flex-direction: column !important;
+    }
+    .network-container {
+        height: 46vh !important;
+        border-right: none;
+        border-bottom: 2px solid var(--border-color);
+    }
+    .details-panel {
+        width: 100% !important;
+        height: auto !important;
+        flex: 1;
+        padding: 14px;
+    }
+    .app-navbar {
+        padding: 8px 10px;
+    }
+    .brand-title {
+        font-size: 0.92rem;
+    }
+    .user-pill {
+        padding: 3px 8px 3px 4px;
+    }
+    .player-name {
+        max-width: 60px;
+    }
+    .graph-legend {
+        bottom: 8px;
+        left: 8px;
+        padding: 6px 10px;
+        font-size: 0.72rem;
+        max-width: 90%;
+    }
+    .custom-tabs .nav-link {
+        font-size: 0.78rem;
+        padding: 5px 10px;
+    }
+}

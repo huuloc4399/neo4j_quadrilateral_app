@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hệ thống Học tập & Đồ thị Tri thức Tứ giác - Neo4j Cloud</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Vis-network CDN -->
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="app-navbar shadow-sm">
+        <div class="d-flex align-items-center gap-2">
+            <div class="logo-box">
+                <i class="bi bi-diagram-3-fill text-primary fs-4"></i>
+            </div>
+            <div>
+                <h1 class="brand-title mb-0">HỆ THỐNG HÌNH HỌC TỨ GIÁC</h1>
+                <div class="d-flex align-items-center gap-2 brand-subtitle">
+                    <span id="cloudStatusBadge" class="badge bg-success-subtle text-success border border-success-subtle">
+                        <span class="spinner-grow spinner-grow-sm me-1 text-success" style="width: 8px; height: 8px;"></span>
+                        Neo4j Aura Cloud: Đang kết nối...
+                    </span>
+                    <span class="text-white-50 d-none d-md-inline">| Đồ án NoSQL Nhóm 08</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE: USER PROFILE & ACTIONS -->
+        <div class="d-flex align-items-center gap-2">
+            <!-- Thẻ Người Chơi -->
+            <div class="user-pill shadow-sm" onclick="changePlayerName()" title="Bấm để đổi tên học viên">
+                <div class="avatar-icon">
+                    <i class="bi bi-mortarboard-fill text-primary"></i>
+                </div>
+                <div class="user-meta">
+                    <span class="player-name" id="playerDisplay">Học viên</span>
+                    <div class="d-flex align-items-center gap-1">
+                        <span class="badge score-badge"><i class="bi bi-star-fill text-warning me-1"></i><span id="scoreDisplay">0</span>đ</span>
+                        <span class="badge coin-badge"><i class="bi bi-coin text-warning me-1"></i><span id="coinsDisplay">0</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-btn-group">
+                <button class="btn btn-nav btn-nav-exercise" onclick="openExerciseModal()" title="Bài toán thực hành">
+                    <i class="bi bi-pencil-square"></i> <span class="d-none d-lg-inline">Bài Toán</span>
+                </button>
+                <button class="btn btn-nav btn-nav-leaderboard" onclick="openLeaderboard()" title="Bảng xếp hạng">
+                    <i class="bi bi-trophy-fill text-warning"></i> <span class="d-none d-lg-inline">BXH</span>
+                </button>
+                <button class="btn btn-nav btn-nav-gift" onclick="openGiftShop()" title="Cửa hàng đổi quà">
+                    <i class="bi bi-gift-fill text-success"></i> <span class="d-none d-lg-inline">Đổi Quà</span>
+                </button>
+                <button class="btn btn-quiz-primary" onclick="startQuiz()" title="Thử thách Quiz kiến thức">
+                    <i class="bi bi-controller"></i> <span>Quiz</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAVIGATION TABS -->
+    <nav class="sub-nav px-3 py-2 border-bottom bg-white">
+        <ul class="nav nav-pills custom-tabs gap-1" id="mainTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="tree-tab" data-bs-toggle="tab" data-bs-target="#tab-tree" type="button" role="tab">
+                    <i class="bi bi-diagram-2 me-1 text-primary"></i> <span>1. Sơ Đồ Phân Cấp & Tra Cứu</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="kg-tab" data-bs-toggle="tab" data-bs-target="#tab-kg" type="button" role="tab">
+                    <i class="bi bi-bounding-box-circles me-1 text-info"></i> <span>2. Đồ Thị Tri Thức Toàn Cảnh</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="inference-tab" data-bs-toggle="tab" data-bs-target="#tab-inference" type="button" role="tab" onclick="loadInferenceProperties()">
+                    <i class="bi bi-cpu me-1 text-warning"></i> <span>3. Nhận Diện Theo Tính Chất</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="compare-tab" data-bs-toggle="tab" data-bs-target="#tab-compare" type="button" role="tab" onclick="loadCompareShapes()">
+                    <i class="bi bi-intersect me-1 text-success"></i> <span>4. So Sánh 2 Tứ Giác</span>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="stats-tab" data-bs-toggle="tab" data-bs-target="#tab-stats" type="button" role="tab" onclick="loadDatabaseStats()">
+                    <i class="bi bi-database-check me-1 text-danger"></i> <span>5. Thống Kê CSDL Neo4j</span>
+                </button>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- MAIN APP CONTENT TABS -->
+    <main class="tab-content flex-grow-1 overflow-hidden" id="mainTabContent">
+
+        <!-- ==================== TAB 1: SƠ ĐỒ PHÂN CẤP & TRA CỨU ==================== -->
+        <div class="tab-pane fade show active h-100" id="tab-tree" role="tabpanel">
+            <div class="h-100 d-flex flex-column flex-md-row overflow-hidden">
+                <!-- Vùng Đồ Thị Cây Phân Cấp (Bên trái) -->
+                <div class="network-container position-relative flex-grow-1" id="tree-network-wrapper">
+                    <div id="treeNetwork" class="w-100 h-100"></div>
+                    <div class="graph-legend shadow-sm">
+                        <div class="legend-title"><i class="bi bi-info-circle me-1"></i> Cây Phân Cấp Tứ Giác</div>
+                        <div class="legend-items">
+                            <span class="legend-badge badge-root">Gốc (Hình học phẳng)</span>
+                            <span class="legend-badge badge-quad">Tứ giác cơ sở</span>
+                            <span class="legend-badge badge-sub">Hình chữ nhật / Hình thoi</span>
+                            <span class="legend-badge badge-king">Hình vuông (Toàn diện)</span>
+                        </div>
+                        <div class="legend-hint mt-1 small text-muted">
+                            <i class="bi bi-hand-index-thumb"></i> Chạm vào một hình để xem tính chất, công thức và mẹo giải nhanh!
+                        </div>
+                    </div>
+                    <div class="network-controls">
+                        <button class="btn btn-sm btn-light border shadow-sm" onclick="resetTreeZoom()" title="Vừa màn hình">
+                            <i class="bi bi-arrows-fullscreen"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bảng Chi Tiết & Mẹo Ghi Nhớ (Bên phải) -->
+                <div class="details-panel shadow-sm" id="tree-details-wrapper">
+                    <div id="shapeDetailsContainer">
+                        <div class="empty-state text-center py-5">
+                            <div class="empty-icon mb-3">
+                                <i class="bi bi-cursor-fill text-primary fs-1"></i>
+                            </div>
+                            <h5 class="fw-bold text-dark">Chọn một hình học trên sơ đồ</h5>
+                            <p class="text-secondary small px-3">
+                                Khám phá định nghĩa chuẩn, công thức chu vi & diện tích, tính chất kế thừa và mẹo ghi nhớ hình học độc quyền.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 2: ĐỒ THỊ TRI THỨC TOÀN CẢNH (KNOWLEDGE GRAPH) ==================== -->
+        <div class="tab-pane fade h-100" id="tab-kg" role="tabpanel">
+            <div class="h-100 d-flex flex-column position-relative">
+                <!-- Thanh công cụ lọc Knowledge Graph -->
+                <div class="kg-toolbar p-2 px-3 bg-white border-bottom d-flex flex-wrap align-items-center justify-content-between gap-2">
+                    <div class="d-flex align-items-center gap-3 flex-wrap">
+                        <span class="fw-bold small text-dark"><i class="bi bi-sliders me-1"></i> Lọc tầng thực thể:</span>
+                        <div class="form-check form-check-inline form-switch m-0">
+                            <input class="form-check-input" type="checkbox" id="filterProps" checked onchange="loadKnowledgeGraph()">
+                            <label class="form-check-label small fw-semibold text-success" for="filterProps">Tính chất (Property)</label>
+                        </div>
+                        <div class="form-check form-check-inline form-switch m-0">
+                            <input class="form-check-input" type="checkbox" id="filterFormulas" checked onchange="loadKnowledgeGraph()">
+                            <label class="form-check-label small fw-semibold text-warning" for="filterFormulas">Công thức (Formula)</label>
+                        </div>
+                        <div class="form-check form-check-inline form-switch m-0">
+                            <input class="form-check-input" type="checkbox" id="filterConditions" checked onchange="loadKnowledgeGraph()">
+                            <label class="form-check-label small fw-semibold text-danger" for="filterConditions">Dấu hiệu nhận biết (Condition)</label>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-primary" onclick="resetKgZoom()">
+                            <i class="bi bi-aspect-ratio me-1"></i> Khôi phục góc nhìn
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Canvas Knowledge Graph -->
+                <div class="flex-grow-1 position-relative" id="kgNetworkWrapper">
+                    <div id="kgNetwork" class="w-100 h-100"></div>
+                    <div class="kg-legend shadow-sm">
+                        <div class="small fw-bold mb-1">Chú giải thực thể Knowledge Graph:</div>
+                        <div class="d-flex flex-wrap gap-2 small">
+                            <span><i class="bi bi-circle-fill text-primary"></i> Tứ giác (Shape)</span>
+                            <span><i class="bi bi-circle-fill text-success"></i> Tính chất (Property)</span>
+                            <span><i class="bi bi-square-fill text-warning"></i> Công thức (Formula)</span>
+                            <span><i class="bi bi-suit-diamond-fill text-danger"></i> Dấu hiệu (Condition)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 3: BỘ MÁY NHẬN DIỆN THÔNG MINH (INFERENCE) ==================== -->
+        <div class="tab-pane fade h-100 overflow-y-auto p-3 p-md-4" id="tab-inference" role="tabpanel">
+            <div class="container-fluid max-w-1200 mx-auto">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-2">
+                            <div class="feature-icon bg-warning-subtle text-warning p-2 rounded-3 fs-3">
+                                <i class="bi bi-cpu-fill"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold mb-0">Hệ Thống Suy Luận Nhận Diện Tứ Giác</h4>
+                                <p class="text-secondary small mb-0">
+                                    Dựa trên các tính chất bài toán cho, Knowledge Graph Neo4j sẽ tự động đối sánh đồ thị và suy luận ra hình học chính xác nhất.
+                                </p>
+                            </div>
+                        </div>
+                        <hr class="my-3">
+
+                        <!-- Các nhóm tính chất -->
+                        <div id="propertiesCheckboxContainer" class="row g-3">
+                            <div class="col-12 text-center py-4 text-muted">
+                                <div class="spinner-border spinner-border-sm text-primary me-2"></div> Đang tải danh sách tính chất từ Neo4j Aura Cloud...
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between mt-4 pt-3 border-top flex-wrap gap-2">
+                            <button class="btn btn-outline-secondary" onclick="clearSelectedProperties()">
+                                <i class="bi bi-arrow-counterclockwise me-1"></i> Xóa tất cả lựa chọn
+                            </button>
+                            <button class="btn btn-primary px-4 fw-bold shadow-sm" onclick="runInferenceIdentify()">
+                                <i class="bi bi-lightning-charge-fill me-1"></i> Thực Hiện Suy Luận Nhận Diện
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kết Quả Suy Luận -->
+                <div id="inferenceResultContainer" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 4: SO SÁNH 2 TỨ GIÁC (COMPARE) ==================== -->
+        <div class="tab-pane fade h-100 overflow-y-auto p-3 p-md-4" id="tab-compare" role="tabpanel">
+            <div class="container-fluid max-w-1200 mx-auto">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="feature-icon bg-success-subtle text-success p-2 rounded-3 fs-3">
+                                <i class="bi bi-intersect"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold mb-0">So Sánh Đối Chiếu Hai Loại Tứ Giác</h4>
+                                <p class="text-secondary small mb-0">
+                                    Phân tích giao tập tính chất (kế thừa từ tổ tiên chung) và tính chất riêng biệt của từng loại hình.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-5">
+                                <label class="form-label fw-bold small text-muted">Loại tứ giác thứ nhất:</label>
+                                <select class="form-select form-select-lg" id="compareSelect1"></select>
+                            </div>
+                            <div class="col-md-2 text-center pt-md-4">
+                                <div class="vs-circle mx-auto fw-bold text-white bg-dark">VS</div>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label fw-bold small text-muted">Loại tứ giác thứ hai:</label>
+                                <select class="form-select form-select-lg" id="compareSelect2"></select>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-success px-4 fw-bold shadow-sm" onclick="runCompareShapes()">
+                                <i class="bi bi-search me-1"></i> Tiến Hành So Sánh Đối Chiếu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kết Quả So Sánh -->
+                <div id="compareResultContainer" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 5: THỐNG KÊ CSDL NEO4J CLOUD ==================== -->
+        <div class="tab-pane fade h-100 overflow-y-auto p-3 p-md-4" id="tab-stats" role="tabpanel">
+            <div class="container-fluid max-w-1200 mx-auto">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="feature-icon bg-danger-subtle text-danger p-2 rounded-3 fs-3">
+                                    <i class="bi bi-hdd-network-fill"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-0">Giám Sát & Thống Kê Cơ Sở Dữ Liệu Neo4j Cloud</h4>
+                                    <p class="text-secondary small mb-0">
+                                        Theo dõi cấu trúc thực thể và liên kết trực tiếp trên máy chủ đám mây Neo4j Aura Free.
+                                    </p>
+                                </div>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger" onclick="loadDatabaseStats()">
+                                <i class="bi bi-arrow-repeat me-1"></i> Làm mới dữ liệu
+                            </button>
+                        </div>
+
+                        <!-- 4 Chỉ số tổng quan -->
+                        <div class="row g-3 mb-4" id="statsMetricsRow">
+                            <div class="col-6 col-lg-3">
+                                <div class="stat-card p-3 border rounded-3 bg-light">
+                                    <span class="stat-label text-muted small">Loại Tứ giác (Shape)</span>
+                                    <h2 class="stat-value text-primary fw-bold mb-0" id="statShapes">-</h2>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-3">
+                                <div class="stat-card p-3 border rounded-3 bg-light">
+                                    <span class="stat-label text-muted small">Tính chất (Property)</span>
+                                    <h2 class="stat-value text-success fw-bold mb-0" id="statProps">-</h2>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-3">
+                                <div class="stat-card p-3 border rounded-3 bg-light">
+                                    <span class="stat-label text-muted small">Công thức (Formula)</span>
+                                    <h2 class="stat-value text-warning fw-bold mb-0" id="statForms">-</h2>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-3">
+                                <div class="stat-card p-3 border rounded-3 bg-light">
+                                    <span class="stat-label text-muted small">Liên kết (Relationship)</span>
+                                    <h2 class="stat-value text-danger fw-bold mb-0" id="statRels">-</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bảng chi tiết Node & Relationship -->
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <h6 class="fw-bold mb-2"><i class="bi bi-tag-fill text-primary me-1"></i> Phân Bố Nhãn Node (Node Labels):</h6>
+                                <div class="table-responsive border rounded-3">
+                                    <table class="table table-hover table-sm mb-0 align-middle">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Tên Nhãn (Label)</th>
+                                                <th class="text-end">Số Lượng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="statLabelsTable"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="fw-bold mb-2"><i class="bi bi-arrows-angle-expand text-success me-1"></i> Phân Bố Loại Quan Hệ (Relationship Types):</h6>
+                                <div class="table-responsive border rounded-3">
+                                    <table class="table table-hover table-sm mb-0 align-middle">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Tên Quan Hệ (Type)</th>
+                                                <th class="text-end">Số Lượng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="statRelsTable"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ==================== MODAL: BÀI TOÁN LUYỆN TẬP ==================== -->
+    <div class="modal fade" id="exerciseModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-primary text-white py-3">
+                    <h6 class="modal-title fw-bold">
+                        <i class="bi bi-pencil-square me-2"></i> Bài Toán Luyện Tập Thực Hành
+                    </h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-3">
+                    <!-- Filter bar -->
+                    <div class="d-flex flex-wrap gap-1 mb-3" id="exerciseFilterBar">
+                        <button class="btn btn-sm btn-dark filter-btn active" onclick="filterExercises('all', this)">Tất cả</button>
+                        <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterExercises('SH_TRAP', this)">Hình thang</button>
+                        <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterExercises('SH_ISOTRAP', this)">Hình thang cân</button>
+                        <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterExercises('SH_PARA', this)">Hình bình hành</button>
+                        <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterExercises('SH_RECT', this)">Hình chữ nhật</button>
+                        <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterExercises('SH_RHOMBUS', this)">Hình thoi</button>
+                        <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterExercises('SH_SQUARE', this)">Hình vuông</button>
+                    </div>
+
+                    <div id="exerciseListContainer">
+                        <div class="text-center py-4 text-muted"><div class="spinner-border spinner-border-sm text-primary"></div> Đang tải bài toán...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: QUIZ THỬ THÁCH ==================== -->
+    <div class="modal fade" id="quizModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-warning text-dark py-3">
+                    <h6 class="modal-title fw-bold">
+                        <i class="bi bi-controller me-2"></i> Thử Thách Quiz (+20đ, +10 Xu)
+                    </h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-3" id="quizBody">
+                    <!-- Nội dung Quiz sinh động -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: BẢNG XẾP HẠNG ==================== -->
+    <div class="modal fade" id="leaderboardModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-dark text-white py-3">
+                    <h6 class="modal-title fw-bold">
+                        <i class="bi bi-trophy-fill text-warning me-2"></i> Bảng Xếp Hạng Học Viên
+                    </h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 15%;">Hạng</th>
+                                    <th>Học viên</th>
+                                    <th class="text-end">Điểm ⭐</th>
+                                    <th class="text-end">Xu 🪙</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaderboardTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL: ĐỔI QUÀ TẶNG ==================== -->
+    <div class="modal fade" id="giftModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-success text-white py-3">
+                    <h6 class="modal-title fw-bold">
+                        <i class="bi bi-shop me-2"></i> Cửa Hàng Đổi Quà Tặng
+                    </h6>
+                    <div class="ms-auto me-2 badge bg-light text-dark px-2 py-1">
+                        Ví xu: <span id="shopCoinsDisplay" class="text-success fw-bold">0</span> <i class="bi bi-coin text-warning"></i>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-3">
+                    <div id="giftNotification"></div>
+                    <div class="row g-3" id="giftListContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
