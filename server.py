@@ -186,43 +186,12 @@ EXERCISES_DATA = [
     }
 ]
 
-GIFTS_CATALOG = [
-    {
-        "id": "but_hinh_hoc",
-        "name": "Bộ Thước & Bút Kẻ Hình Học",
-        "coins_cost": 100,
-        "icon": "bi-pen",
-        "desc": "Bộ compa, êke và thước đo góc chuẩn cho môn hình học."
-    },
-    {
-        "id": "so_tay_toan",
-        "name": "Sổ Tay Bí Kíp Toán Hình",
-        "coins_cost": 200,
-        "icon": "bi-journal-bookmark",
-        "desc": "Tóm tắt toàn bộ công thức, định lý và mẹo nhớ siêu tốc các loại tứ giác."
-    },
-    {
-        "id": "huy_hieu_vang",
-        "name": "Huy Hiệu Nhà Hình Học Vàng",
-        "coins_cost": 300,
-        "icon": "bi-award",
-        "desc": "Danh hiệu vinh danh hiển thị đặc biệt trên Bảng Xếp Hạng."
-    },
-    {
-        "id": "voucher_trasua",
-        "name": "Voucher Trà Sữa 50K",
-        "coins_cost": 500,
-        "icon": "bi-cup-straw",
-        "desc": "Thưởng thức ly trà sữa mát lạnh sau giờ học hình học căng thẳng."
-    }
-]
-
 # Bộ nhớ tạm lưu trữ Leaderboard và Players
 PLAYERS_DB = {
-    "Nguyễn Hữu Lộc": {"score": 350, "coins": 180, "gifts": ["huy_hieu_vang"]},
-    "Nguyễn Thị Quyên": {"score": 310, "coins": 150, "gifts": ["so_tay_toan"]},
-    "Dương Chí Khải": {"score": 280, "coins": 120, "gifts": ["but_hinh_hoc"]},
-    "ThS. Trần Quang Bình": {"score": 500, "coins": 300, "gifts": ["huy_hieu_vang"]},
+    "Nguyễn Hữu Lộc": {"score": 350, "coins": 180},
+    "Nguyễn Thị Quyên": {"score": 310, "coins": 150},
+    "Dương Chí Khải": {"score": 280, "coins": 120},
+    "ThS. Trần Quang Bình": {"score": 500, "coins": 300},
 }
 
 # ==============================================================================
@@ -762,7 +731,7 @@ def finish_quiz():
     earned_coins = int(data.get("earned_coins", 0))
 
     if username not in PLAYERS_DB:
-        PLAYERS_DB[username] = {"score": 0, "coins": 0, "gifts": []}
+        PLAYERS_DB[username] = {"score": 0, "coins": 0}
 
     PLAYERS_DB[username]["score"] += earned_score
     PLAYERS_DB[username]["coins"] += earned_coins
@@ -784,14 +753,13 @@ def get_or_create_player():
         username = "Học viên"
 
     if username not in PLAYERS_DB:
-        PLAYERS_DB[username] = {"score": 0, "coins": 0, "gifts": []}
+        PLAYERS_DB[username] = {"score": 0, "coins": 0}
 
     p = PLAYERS_DB[username]
     return jsonify({
         "username": username,
         "score": p["score"],
-        "coins": p["coins"],
-        "gifts": p["gifts"]
+        "coins": p["coins"]
     })
 
 # 12. BẢNG XẾP HẠNG (LEADERBOARD)
@@ -802,45 +770,10 @@ def get_leaderboard():
         sorted_players.append({
             "username": uname,
             "score": pdata["score"],
-            "coins": pdata["coins"],
-            "gifts_count": len(pdata.get("gifts", []))
+            "coins": pdata["coins"]
         })
     sorted_players.sort(key=lambda x: (x["score"], x["coins"]), reverse=True)
     return jsonify(sorted_players[:15])
-
-# 13. CỬA HÀNG QUÀ TẶNG & ĐỔI QUÀ (GIFT SHOP)
-@app.route("/api/gifts", methods=["GET"])
-def get_gifts():
-    return jsonify(GIFTS_CATALOG)
-
-@app.route("/api/gifts/redeem", methods=["POST"])
-def redeem_gift():
-    data = request.get_json() or {}
-    username = data.get("username", "Khách").strip()
-    gift_id = data.get("gift_id")
-
-    gift = next((g for g in GIFTS_CATALOG if g["id"] == gift_id), None)
-    if not gift:
-        return jsonify({"error": "Món quà không tồn tại trong danh mục."}), 404
-
-    if username not in PLAYERS_DB:
-        PLAYERS_DB[username] = {"score": 0, "coins": 0, "gifts": []}
-
-    p = PLAYERS_DB[username]
-    if p["coins"] < gift["coins_cost"]:
-        return jsonify({
-            "error": f"Bạn không đủ xu! Cần {gift['coins_cost']} xu nhưng bạn chỉ có {p['coins']} xu. Hãy làm thêm bài tập hoặc giải quiz để tích lũy xu nhé!"
-        }), 400
-
-    p["coins"] -= gift["coins_cost"]
-    p["gifts"].append(gift["id"])
-
-    return jsonify({
-        "success": True,
-        "message": f"Chúc mừng bạn đã đổi thành công: {gift['name']}!",
-        "remaining_coins": p["coins"],
-        "gift": gift
-    })
 
 # 14. THỐNG KÊ TOÀN DIỆN CƠ SỞ DỮ LIỆU NEO4J AURA CLOUD
 @app.route("/api/stats", methods=["GET"])

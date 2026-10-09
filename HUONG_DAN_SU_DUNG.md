@@ -55,7 +55,7 @@ pip install -r requirements.txt
 ### 3.1. Thanh Điều Hướng & Hồ Sơ Học Viên (Top Bar)
 * **Chỉ báo trạng thái Cloud Real-time:** Đèn tín hiệu xanh hiển thị kết nối máy chủ Neo4j Aura Cloud cùng độ trễ (latency ms) và số lượng nodes thực tế.
 * **Tài khoản học viên:** Bấm vào thẻ tên để đổi Nickname. Lưu trữ điểm số (Score ⭐) và Ví xu (Coins 🪙) đồng bộ trên trình duyệt.
-* **Bộ nút thao tác nhanh:** Truy cập nhanh Bài toán, Bảng xếp hạng, Đổi quà và Quiz.
+* **Bộ nút thao tác nhanh:** Truy cập nhanh Bài toán, Bảng xếp hạng, và Quiz.
 
 ### 3.2. Chức năng 1: Sơ Đồ Phân Cấp & Tra Cứu Tứ Giác
 * **Cây phả hệ Vis-Network:** Hiển thị trực quan quá trình tiến hóa từ *Hình học phẳng $\rightarrow$ Tứ giác $\rightarrow$ Hình thang $\rightarrow$ Hình bình hành $\rightarrow$ Hình chữ nhật/Hình thoi $\rightarrow$ Hình vuông*.
@@ -91,9 +91,8 @@ pip install -r requirements.txt
 * Tích hợp cơ chế suy luận truy vết từ `Question` $\rightarrow$ `Solution` $\rightarrow$ `RecognitionCondition` để giải thích tường tận căn cứ lý thuyết vì sao đáp án đó là đúng.
 * Hoàn thành Quiz nhận thưởng lớn (+20đ, +10 xu) kèm hiệu ứng pháo hoa chúc mừng.
 
-### 3.8. Chức năng 7: Bảng Xếp Hạng & Cửa Hàng Đổi Quà (Gamification)
+### 3.8. Chức năng 7: Bảng Xếp Hạng (Gamification)
 * **Bảng Xếp Hạng:** Vinh danh các học viên có điểm số và số xu cao nhất với các danh hiệu Vàng, Bạc, Đồng.
-* **Cửa Hàng Đổi Quà:** Dùng số xu kiếm được từ việc giải toán và làm quiz để đổi lấy các phần quà thú vị: *Bộ thước & bút kẻ hình học, Sổ tay bí kíp toán hình, Huy hiệu nhà hình học vàng, Voucher trà sữa*.
 
 ### 3.9. Chức năng 8: Giám Sát & Thống Kê CSDL Neo4j Cloud
 * Bảng điều khiển quản trị thời gian thực thể hiện các thông số trực tiếp từ Neo4j Aura Cloud:
@@ -103,7 +102,7 @@ pip install -r requirements.txt
 ---
 
 ## 4. Hướng dẫn Triển khai Lên Cloud (Render / Railway)
-1. Thư mục dự án đã có sẵn file `Procfile` (`web: gunicorn server:app`).
+1. Thư mục dự án đã có sẵn file `Procfile` (`web: gunicorn server:app -b 0.0.0.0:$PORT`).
 2. Đẩy mã nguồn lên kho lưu trữ GitHub của bạn.
 3. Tạo Web Service mới trên [Render.com](https://render.com), liên kết với GitHub repository.
 4. Cài đặt Environment Variables trên Render:

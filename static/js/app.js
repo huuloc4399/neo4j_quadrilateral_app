@@ -26,14 +26,12 @@ let quizEarnedCoins = 0;
 let exerciseModal = null;
 let quizModal = null;
 let leaderboardModal = null;
-let giftModal = null;
 
 // ==================== KHỞI TẠO ỨNG DỤNG (ON LOAD) ====================
 window.addEventListener("DOMContentLoaded", () => {
     exerciseModal = new bootstrap.Modal(document.getElementById("exerciseModal"));
     quizModal = new bootstrap.Modal(document.getElementById("quizModal"));
     leaderboardModal = new bootstrap.Modal(document.getElementById("leaderboardModal"));
-    giftModal = new bootstrap.Modal(document.getElementById("giftModal"));
 
     checkCloudStatus();
     syncPlayerData(currentPlayer);
@@ -936,7 +934,6 @@ async function finishQuizSession() {
                 </div>
                 <div class="d-flex justify-content-center gap-2">
                     <button class="btn btn-warning fw-bold" onclick="startQuiz()">Làm lại</button>
-                    <button class="btn btn-success fw-bold" onclick="quizModal.hide(); openGiftShop();">Đổi quà</button>
                 </div>
             </div>
         `;
@@ -977,63 +974,7 @@ async function openLeaderboard() {
     }
 }
 
-// ==================== 11. CỬA HÀNG ĐỔI QUÀ (GIFT SHOP) ====================
-async function openGiftShop() {
-    document.getElementById("giftNotification").innerHTML = "";
-    document.getElementById("shopCoinsDisplay").innerText = currentCoins;
-    giftModal.show();
 
-    const container = document.getElementById("giftListContainer");
-    container.innerHTML = `<div class="text-center py-4 text-muted w-100">Đang tải danh mục quà...</div>`;
-
-    try {
-        const res = await fetch("/api/gifts");
-        const gifts = await res.json();
-
-        container.innerHTML = gifts.map(g => `
-            <div class="col-12 col-sm-6">
-                <div class="card p-3 h-100 border shadow-sm">
-                    <div class="d-flex align-items-center mb-2">
-                        <div class="bg-light p-2 rounded-circle me-3 text-success fs-4">
-                            <i class="bi ${g.icon}"></i>
-                        </div>
-                        <div>
-                            <h6 class="fw-bold mb-0">${g.name}</h6>
-                            <span class="badge bg-warning text-dark"><i class="bi bi-coin"></i> ${g.coins_cost} Xu</span>
-                        </div>
-                    </div>
-                    <p class="small text-muted mb-3">${g.desc}</p>
-                    <button class="btn btn-sm btn-success mt-auto w-100 fw-bold" onclick="redeemGift('${g.id}')">Đổi Quà Ngay</button>
-                </div>
-            </div>
-        `).join('');
-    } catch (err) {
-        container.innerHTML = `<div class="alert alert-danger w-100">Lỗi tải danh mục quà.</div>`;
-    }
-}
-
-async function redeemGift(giftId) {
-    const noti = document.getElementById("giftNotification");
-    try {
-        const res = await fetch("/api/gifts/redeem", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username: currentPlayer, gift_id: giftId })
-        });
-        const data = await res.json();
-
-        if (res.ok) {
-            confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 } });
-            currentCoins = data.remaining_coins;
-            updatePlayerUI();
-            noti.innerHTML = `<div class="alert alert-success p-2 small mb-3"><i class="bi bi-check-circle-fill me-1"></i> ${data.message}</div>`;
-        } else {
-            noti.innerHTML = `<div class="alert alert-danger p-2 small mb-3"><i class="bi bi-x-circle-fill me-1"></i> ${data.error}</div>`;
-        }
-    } catch (err) {
-        noti.innerHTML = `<div class="alert alert-danger p-2 small">Lỗi kết nối máy chủ.</div>`;
-    }
-}
 
 // ==================== 12. THỐNG KÊ CƠ SỞ DỮ LIỆU NEO4J CLOUD ====================
 async function loadDatabaseStats() {
