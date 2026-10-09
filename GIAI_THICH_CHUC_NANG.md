@@ -27,6 +27,10 @@ Dự án hiện tại được xây dựng bằng kiến trúc **Client-Server**
   * **Gọi API:** Sử dụng `fetch()` để gọi các API từ `server.py` để lấy dữ liệu.
   * **Hiển thị đồ thị:** Sử dụng thư viện `vis-network` để vẽ "Sơ Đồ Phân Cấp" và "Đồ Thị Tri Thức Toàn Cảnh".
   * **Xử lý sự kiện:** Bắt các sự kiện click chuột, chuyển tab, trả lời câu hỏi trắc nghiệm, cập nhật điểm số và giao diện người dùng.
+* **`static/js/canvas.js`**: File xử lý riêng cho chức năng "Bảng vẽ Tứ giác" (Phần 6).
+  * **Vẽ Canvas:** Xử lý việc vẽ lưới (grid), tạo và nối 4 điểm góc (A, B, C, D) thành hình tứ giác tương tác.
+  * **Toán học & Hình học:** Lắng nghe sự kiện kéo thả chuột, tính toán khoảng cách (độ dài cạnh, đường chéo), góc giữa các cạnh (Sử dụng Vector và Dot/Cross Product).
+  * **Nhận diện thông minh:** Dựa vào dung sai khi kéo thả, tự động phân loại hình dạng (Hình vuông, chữ nhật, bình hành, thang, thoi, v.v.) và liên kết với dữ liệu từ `app.js` để hiển thị công thức, tính chất tương ứng.
 * **`static/css/style.css` (nếu có)**: Chứa các tùy chỉnh CSS về màu sắc, kích thước, hiệu ứng không có sẵn trong Bootstrap.
 
 ---

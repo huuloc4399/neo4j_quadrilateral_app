@@ -99,6 +99,11 @@
                     <i class="bi bi-database-check me-1 text-danger"></i> <span>5. Thống Kê CSDL Neo4j</span>
                 </button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="canvas-tab" data-bs-toggle="tab" data-bs-target="#tab-canvas" type="button" role="tab">
+                    <i class="bi bi-vector-pen me-1 text-primary"></i> <span>6. Bảng Vẽ Nhận Diện</span>
+                </button>
+            </li>
         </ul>
     </nav>
 
@@ -361,6 +366,38 @@
             </div>
         </div>
 
+        <!-- ==================== TAB 6: BẢNG VẼ NHẬN DIỆN TỨ GIÁC ==================== -->
+        <div class="tab-pane fade h-100" id="tab-canvas" role="tabpanel">
+            <div class="h-100 d-flex flex-column flex-md-row overflow-hidden bg-white">
+                <!-- Vùng Vẽ (Bên trái) -->
+                <div class="flex-grow-1 position-relative p-3 d-flex flex-column" style="min-height: 400px;">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h5 class="fw-bold text-primary mb-0"><i class="bi bi-grid-3x3 me-2"></i>Bảng Vẽ Hình Học Tương Tác</h5>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="resetCanvas()"><i class="bi bi-arrow-counterclockwise"></i> Khôi phục hình</button>
+                    </div>
+                    <div id="canvas-container" class="border border-2 rounded bg-light flex-grow-1 position-relative" style="overflow: hidden;">
+                        <canvas id="geometryCanvas" class="position-absolute top-0 start-0 w-100 h-100" style="cursor: crosshair; touch-action: none;"></canvas>
+                    </div>
+                    <div class="text-muted small mt-2">
+                        <i class="bi bi-info-circle text-primary"></i> <strong>Hướng dẫn:</strong> Dùng chuột (hoặc chạm tay) để kéo thả 4 điểm góc <strong>A, B, C, D</strong> trên lưới tọa độ. Hệ thống sẽ ngay lập tức tính toán các góc, kích thước và nhận dạng ra tên hình.
+                    </div>
+                </div>
+
+                <!-- Bảng Nhận Diện & Chi Tiết (Bên phải) -->
+                <div class="details-panel shadow-sm border-start bg-white" id="canvas-details-wrapper" style="width: 380px; overflow-y: auto;">
+                    <div class="p-3">
+                        <h6 class="fw-bold text-uppercase text-secondary mb-3 pb-2 border-bottom">Kết Quả Phân Tích</h6>
+                        <div id="canvasResultContainer">
+                            <div class="text-center py-5 text-muted">
+                                <i class="bi bi-magic fs-1 mb-2 d-block"></i>
+                                <p>Đang chờ bạn tương tác trên bảng vẽ...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- ==================== MODAL: BÀI TOÁN LUYỆN TẬP ==================== -->
@@ -445,5 +482,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script src="/static/js/app.js"></script>
+    <script src="/static/js/canvas.js"></script>
 </body>
 </html>
