@@ -742,88 +742,161 @@ def get_quiz():
                 "difficulty": q.get("diff", "Cơ bản")
             })
 
-    # Thêm các câu hỏi mở rộng thú vị
+    # Thêm các câu hỏi mở rộng thú vị (Chỉ liên quan tới tứ giác)
     extra_questions = [
+        # LỚP 6
         {
-            "id": "EX_01",
-            "grade": 6,
+            "id": "EX_01", "grade": 6, "difficulty": "Cơ bản",
             "question": "Công thức tính diện tích (S) của Hình chữ nhật có chiều dài a và chiều rộng b là gì?",
             "options": ["S = a²", "S = a × b", "S = (a + b) × h / 2", "S = 2(a + b)"],
             "answer": "S = a × b",
-            "explain": "Diện tích hình chữ nhật bằng tích hai kích thước chiều dài và chiều rộng: S = a × b.",
-            "difficulty": "Cơ bản"
+            "explain": "Diện tích hình chữ nhật bằng tích hai kích thước chiều dài và chiều rộng: S = a × b."
         },
         {
-            "id": "EX_02",
-            "grade": 8,
+            "id": "EX_02", "grade": 6, "difficulty": "Cơ bản",
+            "question": "Chu vi của hình thoi có cạnh bằng a được tính bằng công thức nào?",
+            "options": ["P = a²", "P = 2a", "P = 4a", "P = a × h"],
+            "answer": "P = 4a",
+            "explain": "Hình thoi có 4 cạnh bằng nhau nên chu vi P = 4 × a."
+        },
+        {
+            "id": "EX_03", "grade": 6, "difficulty": "Cơ bản",
+            "question": "Hình vuông có cạnh là 5cm thì diện tích bằng bao nhiêu?",
+            "options": ["10 cm²", "20 cm²", "25 cm²", "15 cm²"],
+            "answer": "25 cm²",
+            "explain": "Diện tích hình vuông S = a² = 5 × 5 = 25 cm²."
+        },
+        # LỚP 7
+        {
+            "id": "EX_04", "grade": 7, "difficulty": "Cơ bản",
+            "question": "Tổng 4 góc trong một tứ giác bất kỳ bằng bao nhiêu độ?",
+            "options": ["180 độ", "270 độ", "360 độ", "90 độ"],
+            "answer": "360 độ",
+            "explain": "Theo định lý tổng các góc trong một đa giác, tổng 4 góc của tứ giác luôn bằng 360 độ."
+        },
+        {
+            "id": "EX_05", "grade": 7, "difficulty": "Cơ bản",
+            "question": "Sử dụng định lý Pytago, độ dài đường chéo của hình chữ nhật có hai cạnh 3cm và 4cm là bao nhiêu?",
+            "options": ["5cm", "6cm", "7cm", "12cm"],
+            "answer": "5cm",
+            "explain": "Đường chéo d = √(3² + 4²) = √(9 + 16) = √25 = 5cm."
+        },
+        {
+            "id": "EX_06", "grade": 7, "difficulty": "Khá",
+            "question": "Hai đường chéo của tứ giác có tính chất gì để tứ giác đó là hình thoi?",
+            "options": ["Cắt nhau tại trung điểm", "Vuông góc với nhau tại trung điểm", "Bằng nhau", "Song song với nhau"],
+            "answer": "Vuông góc với nhau tại trung điểm",
+            "explain": "Tứ giác có 2 đường chéo cắt nhau tại trung điểm mỗi đường và vuông góc với nhau là hình thoi."
+        },
+        # LỚP 8 (Trọng tâm)
+        {
+            "id": "EX_07", "grade": 8, "difficulty": "Cơ bản",
+            "question": "Tứ giác có hai cạnh đối song song và bằng nhau là hình gì?",
+            "options": ["Hình chữ nhật", "Hình bình hành", "Hình thang cân", "Hình thoi"],
+            "answer": "Hình bình hành",
+            "explain": "Theo dấu hiệu nhận biết: Tứ giác có 1 cặp cạnh đối vừa song song vừa bằng nhau là hình bình hành."
+        },
+        {
+            "id": "EX_08", "grade": 8, "difficulty": "Cơ bản",
             "question": "Khi Hình bình hành có hai đường chéo vuông góc với nhau thì nó trở thành hình nào?",
             "options": ["Hình chữ nhật", "Hình thang cân", "Hình thoi", "Hình vuông"],
             "answer": "Hình thoi",
-            "explain": "Theo dấu hiệu nhận biết: Hình bình hành có hai đường chéo vuông góc là hình thoi.",
-            "difficulty": "Cơ bản"
+            "explain": "Theo dấu hiệu nhận biết: Hình bình hành có hai đường chéo vuông góc là hình thoi."
         },
         {
-            "id": "EX_03",
-            "grade": 8,
+            "id": "EX_09", "grade": 8, "difficulty": "Cơ bản",
             "question": "Tứ giác có 4 góc vuông và 4 cạnh bằng nhau là hình gì?",
             "options": ["Hình bình hành", "Hình chữ nhật", "Hình thoi", "Hình vuông"],
             "answer": "Hình vuông",
-            "explain": "Hình vuông là tứ giác đặc biệt có đồng thời 4 góc vuông và 4 cạnh bằng nhau.",
-            "difficulty": "Cơ bản"
+            "explain": "Hình vuông là tứ giác đặc biệt có đồng thời 4 góc vuông và 4 cạnh bằng nhau."
         },
         {
-            "id": "EX_04",
-            "grade": 8,
+            "id": "EX_10", "grade": 8, "difficulty": "Cơ bản",
             "question": "Hình thang có hai góc kề một đáy bằng nhau thì trở thành hình gì?",
             "options": ["Hình bình hành", "Hình thang cân", "Hình thang vuông", "Hình chữ nhật"],
             "answer": "Hình thang cân",
-            "explain": "Theo định nghĩa: Hình thang có hai góc kề một đáy bằng nhau là hình thang cân.",
-            "difficulty": "Cơ bản"
+            "explain": "Theo định nghĩa: Hình thang có hai góc kề một đáy bằng nhau là hình thang cân."
         },
         {
-            "id": "EX_05",
-            "grade": 7,
-            "question": "Trong tam giác vuông, bình phương cạnh huyền bằng tổng bình phương hai cạnh góc vuông. Đây là định lý gì?",
-            "options": ["Định lý Talet", "Định lý Pythagore", "Định lý Sin", "Định lý Cosin"],
-            "answer": "Định lý Pythagore",
-            "explain": "Định lý Pythagore là định lý kinh điển dùng nhiều trong tính toán đường chéo tứ giác.",
-            "difficulty": "Cơ bản"
+            "id": "EX_11", "grade": 8, "difficulty": "Khá",
+            "question": "Đường trung bình của hình thang có tính chất gì?",
+            "options": ["Song song với 2 đáy", "Bằng nửa tổng hai đáy", "Cả hai đáp án trên đều đúng", "Bằng nửa hiệu hai đáy"],
+            "answer": "Cả hai đáp án trên đều đúng",
+            "explain": "Đường trung bình của hình thang song song với hai đáy và có độ dài bằng nửa tổng hai đáy."
         },
+        # LỚP 9
         {
-            "id": "EX_06",
-            "grade": 9,
+            "id": "EX_12", "grade": 9, "difficulty": "Khá",
             "question": "Một tứ giác có tổng số đo hai góc đối diện bằng 180 độ thì tứ giác đó là:",
-            "options": ["Hình thoi", "Tứ giác ngoại tiếp", "Tứ giác nội tiếp", "Hình bình hành"],
-            "answer": "Tứ giác nội tiếp",
-            "explain": "Dấu hiệu nhận biết quan trọng nhất của tứ giác nội tiếp là tổng 2 góc đối bằng 180 độ.",
-            "difficulty": "Khá"
+            "options": ["Hình thoi", "Tứ giác ngoại tiếp", "Tứ giác nội tiếp đường tròn", "Hình bình hành"],
+            "answer": "Tứ giác nội tiếp đường tròn",
+            "explain": "Dấu hiệu nhận biết quan trọng nhất của tứ giác nội tiếp là tổng 2 góc đối bằng 180 độ."
         },
         {
-            "id": "EX_07",
-            "grade": 10,
-            "question": "Cho hình bình hành ABCD, đẳng thức vectơ nào sau đây ĐÚNG?",
-            "options": ["Vectơ AB = Vectơ CD", "Vectơ AD = Vectơ CB", "Vectơ AB = Vectơ DC", "Vectơ AC = Vectơ BD"],
-            "answer": "Vectơ AB = Vectơ DC",
-            "explain": "Trong hình bình hành ABCD, cạnh AB song song và cùng chiều với cạnh DC, nên Vectơ AB = Vectơ DC.",
-            "difficulty": "Khá"
+            "id": "EX_13", "grade": 9, "difficulty": "Cơ bản",
+            "question": "Trong các hình sau, hình nào LUÔN nội tiếp được trong một đường tròn?",
+            "options": ["Hình thoi", "Hình chữ nhật", "Hình bình hành", "Hình thang"],
+            "answer": "Hình chữ nhật",
+            "explain": "Hình chữ nhật có 4 góc vuông, nên tổng hai góc đối luôn bằng 180 độ, do đó nó luôn nội tiếp đường tròn."
         },
         {
-            "id": "EX_08",
-            "grade": 11,
-            "question": "Qua 3 điểm không thẳng hàng trong không gian, ta xác định được bao nhiêu mặt phẳng?",
-            "options": ["1", "2", "3", "Vô số"],
-            "answer": "1",
-            "explain": "Ba điểm không thẳng hàng luôn xác định duy nhất một mặt phẳng (Cơ sở Hình học không gian lớp 11).",
-            "difficulty": "Cơ bản"
+            "id": "EX_14", "grade": 9, "difficulty": "Khó",
+            "question": "Tứ giác có tổng hai cặp cạnh đối bằng nhau (AB+CD = AD+BC) thì có tính chất gì?",
+            "options": ["Nội tiếp đường tròn", "Ngoại tiếp đường tròn", "Là hình bình hành", "Có 4 góc bằng nhau"],
+            "answer": "Ngoại tiếp đường tròn",
+            "explain": "Điều kiện cần và đủ để một tứ giác lồi ngoại tiếp một đường tròn (có đường tròn tiếp xúc 4 cạnh) là tổng hai cạnh đối bằng nhau."
+        },
+        # LỚP 10
+        {
+            "id": "EX_15", "grade": 10, "difficulty": "Khá",
+            "question": "Cho hình bình hành ABCD, theo quy tắc hình bình hành thì đẳng thức vectơ nào ĐÚNG?",
+            "options": ["Vectơ AB + Vectơ AD = Vectơ AC", "Vectơ AB + Vectơ BC = Vectơ AD", "Vectơ AC + Vectơ BD = Vectơ 0", "Vectơ OA + Vectơ OB = Vectơ 0"],
+            "answer": "Vectơ AB + Vectơ AD = Vectơ AC",
+            "explain": "Theo quy tắc hình bình hành của phép cộng vectơ, tổng hai vectơ cạnh kề bằng vectơ đường chéo xuất phát từ cùng đỉnh đó."
         },
         {
-            "id": "EX_09",
-            "grade": 12,
-            "question": "Công thức tính thể tích Khối chóp (V) có diện tích đáy B và chiều cao h là gì?",
-            "options": ["V = B.h", "V = 1/3 B.h", "V = 1/2 B.h", "V = 3 B.h"],
-            "answer": "V = 1/3 B.h",
-            "explain": "Thể tích khối chóp luôn bằng một phần ba tích của diện tích đáy và chiều cao.",
-            "difficulty": "Cơ bản"
+            "id": "EX_16", "grade": 10, "difficulty": "Cơ bản",
+            "question": "Trong hình vuông ABCD có tâm O (giao điểm 2 đường chéo), tổng Vectơ OA + Vectơ OB + Vectơ OC + Vectơ OD bằng gì?",
+            "options": ["Vectơ AC", "Vectơ BD", "Vectơ 0", "4 Vectơ OA"],
+            "answer": "Vectơ 0",
+            "explain": "Vì O là trung điểm của AC và BD nên OA+OC=0 và OB+OD=0. Do đó tổng 4 vectơ bằng vectơ không."
+        },
+        # LỚP 11
+        {
+            "id": "EX_17", "grade": 11, "difficulty": "Khá",
+            "question": "Hình chóp S.ABCD có đáy ABCD là một tứ giác lồi. Thiết diện cắt bởi một mặt phẳng qua 3 điểm trên các cạnh bên có thể là hình gì?",
+            "options": ["Chỉ là tam giác", "Có thể là tam giác hoặc tứ giác", "Luôn là tứ giác", "Là ngũ giác"],
+            "answer": "Có thể là tam giác hoặc tứ giác",
+            "explain": "Tùy thuộc vào vị trí mặt phẳng cắt các cạnh bên, thiết diện của hình chóp tứ giác có thể là tam giác hoặc tứ giác."
+        },
+        {
+            "id": "EX_18", "grade": 11, "difficulty": "Cơ bản",
+            "question": "Phép vị tự tâm O tỉ số k = 3 biến hình chữ nhật có diện tích 10 cm² thành hình chữ nhật mới có diện tích bao nhiêu?",
+            "options": ["10 cm²", "30 cm²", "60 cm²", "90 cm²"],
+            "answer": "90 cm²",
+            "explain": "Phép vị tự tỉ số k biến diện tích hình tăng lên k² lần. Nên S' = 3² × 10 = 90 cm²."
+        },
+        {
+            "id": "EX_19", "grade": 11, "difficulty": "Cơ bản",
+            "question": "Trong không gian, điều kiện để 4 điểm A, B, C, D tạo thành một tứ giác phẳng là gì?",
+            "options": ["4 điểm thẳng hàng", "4 điểm không đồng phẳng", "4 điểm đồng phẳng và không có 3 điểm nào thẳng hàng", "2 điểm trùng nhau"],
+            "answer": "4 điểm đồng phẳng và không có 3 điểm nào thẳng hàng",
+            "explain": "Tứ giác là một hình phẳng, do đó 4 đỉnh của nó phải cùng nằm trên một mặt phẳng (đồng phẳng)."
+        },
+        # LỚP 12
+        {
+            "id": "EX_20", "grade": 12, "difficulty": "Khá",
+            "question": "Trong không gian Oxyz, cho hình bình hành ABCD có A(1;1;1), B(2;3;4), C(6;5;2). Tìm tọa độ đỉnh D?",
+            "options": ["D(5;3;-1)", "D(7;7;5)", "D(3;1;-1)", "D(5;5;1)"],
+            "answer": "D(5;3;-1)",
+            "explain": "Hình bình hành ABCD => Vectơ AB = Vectơ DC => D = A + C - B. Tọa độ D: x = 1+6-2=5; y = 1+5-3=3; z = 1+2-4=-1. Vậy D(5;3;-1)."
+        },
+        {
+            "id": "EX_21", "grade": 12, "difficulty": "Cơ bản",
+            "question": "Một khối chóp tứ giác đều S.ABCD có cạnh đáy (hình vuông) là a và chiều cao là h. Thể tích khối chóp là?",
+            "options": ["V = a²h", "V = 1/3 a²h", "V = 1/2 a²h", "V = 1/3 ah"],
+            "answer": "V = 1/3 a²h",
+            "explain": "Đáy là hình vuông nên S_đáy = a². Thể tích khối chóp V = 1/3 × S_đáy × h = 1/3 × a² × h."
         }
     ]
 
