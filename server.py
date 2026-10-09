@@ -73,8 +73,7 @@ EXERCISES_DATA = [
         "formula_hint": "S = (a + b) × h / 2",
         "correct_answer": 135,
         "unit": "m²",
-        "solution": "Áp dụng công thức S = (a + b) × h / 2:
-S = (18 + 12) × 9 / 2 = 30 × 9 / 2 = 135 m²."
+        "solution": "Áp dụng công thức S = (a + b) × h / 2:\nS = (18 + 12) × 9 / 2 = 30 × 9 / 2 = 135 m²."
     },
     {
         "id": 2,
@@ -86,8 +85,7 @@ S = (18 + 12) × 9 / 2 = 30 × 9 / 2 = 135 m²."
         "formula_hint": "h = 2 × S / (a + b)",
         "correct_answer": 6,
         "unit": "cm",
-        "solution": "Từ công thức S = (a + b) × h / 2 => h = (2 × S) / (a + b).
-Thay số: h = (2 × 90) / 30 = 180 / 30 = 6 cm."
+        "solution": "Từ công thức S = (a + b) × h / 2 => h = (2 × S) / (a + b).\nThay số: h = (2 × 90) / 30 = 180 / 30 = 6 cm."
     },
     {
         "id": 3,
@@ -111,8 +109,7 @@ Thay số: h = (2 × 90) / 30 = 180 / 30 = 6 cm."
         "formula_hint": "S = a × h",
         "correct_answer": 360,
         "unit": "m²",
-        "solution": "Áp dụng công thức S = a × h:
-S = 24 × 15 = 360 m²."
+        "solution": "Áp dụng công thức S = a × h:\nS = 24 × 15 = 360 m²."
     },
     {
         "id": 5,
@@ -124,8 +121,7 @@ S = 24 × 15 = 360 m²."
         "formula_hint": "P = 2 × (a + b)",
         "correct_answer": 44,
         "unit": "cm",
-        "solution": "Áp dụng công thức P = 2 × (a + b):
-P = 2 × (14 + 8) = 2 × 22 = 44 cm."
+        "solution": "Áp dụng công thức P = 2 × (a + b):\nP = 2 × (14 + 8) = 2 × 22 = 44 cm."
     },
     {
         "id": 6,
@@ -137,8 +133,7 @@ P = 2 × (14 + 8) = 2 × 22 = 44 cm."
         "formula_hint": "S = a × b",
         "correct_answer": 375,
         "unit": "m²",
-        "solution": "Áp dụng công thức S = a × b:
-S = 25 × 15 = 375 m²."
+        "solution": "Áp dụng công thức S = a × b:\nS = 25 × 15 = 375 m²."
     },
     {
         "id": 7,
@@ -150,8 +145,7 @@ S = 25 × 15 = 375 m²."
         "formula_hint": "d = √(a² + b²)",
         "correct_answer": 50,
         "unit": "cm",
-        "solution": "Theo định lý Pythagore trong tam giác vuông:
-d = √(30² + 40²) = √(900 + 1600) = √2500 = 50 cm."
+        "solution": "Theo định lý Pythagore trong tam giác vuông:\nd = √(30² + 40²) = √(900 + 1600) = √2500 = 50 cm."
     },
     {
         "id": 8,
@@ -163,8 +157,7 @@ d = √(30² + 40²) = √(900 + 1600) = √2500 = 50 cm."
         "formula_hint": "S = (d₁ × d₂) / 2",
         "correct_answer": 96,
         "unit": "cm²",
-        "solution": "Áp dụng công thức S = (d₁ × d₂) / 2:
-S = (16 × 12) / 2 = 192 / 2 = 96 cm²."
+        "solution": "Áp dụng công thức S = (d₁ × d₂) / 2:\nS = (16 × 12) / 2 = 192 / 2 = 96 cm²."
     },
     {
         "id": 9,
@@ -176,8 +169,7 @@ S = (16 × 12) / 2 = 192 / 2 = 96 cm²."
         "formula_hint": "P = 4 × a",
         "correct_answer": 100,
         "unit": "cm",
-        "solution": "Vì 4 cạnh của hình thoi bằng nhau, P = 4 × a:
-P = 4 × 25 = 100 cm."
+        "solution": "Vì 4 cạnh của hình thoi bằng nhau, P = 4 × a:\nP = 4 × 25 = 100 cm."
     },
     {
         "id": 10,
@@ -189,8 +181,7 @@ P = 4 × 25 = 100 cm."
         "formula_hint": "Cạnh a = P / 4, sau đó S = a²",
         "correct_answer": 144,
         "unit": "m²",
-        "solution": "1. Độ dài cạnh hình vuông: a = 48 / 4 = 12 m.
-2. Diện tích mảnh vườn: S = a² = 12² = 144 m²."
+        "solution": "1. Độ dài cạnh hình vuông: a = 48 / 4 = 12 m.\n2. Diện tích mảnh vườn: S = a² = 12² = 144 m²."
     },
     {
         "id": 11,
@@ -202,8 +193,7 @@ P = 4 × 25 = 100 cm."
         "formula_hint": "Tổng 4 góc trong tứ giác bằng 360°",
         "correct_answer": 95,
         "unit": "°",
-        "solution": "Tổng các góc trong một tứ giác bằng 360°.
-Số đo góc D = 360° - (70° + 110° + 85°) = 360° - 265° = 95°."
+        "solution": "Tổng các góc trong một tứ giác bằng 360°.\nSố đo góc D = 360° - (70° + 110° + 85°) = 360° - 265° = 95°."
     },
     {
         "id": 12,
@@ -215,8 +205,7 @@ Số đo góc D = 360° - (70° + 110° + 85°) = 360° - 265° = 95°."
         "formula_hint": "Tổng 2 góc đối của tứ giác nội tiếp bằng 180°",
         "correct_answer": 75,
         "unit": "°",
-        "solution": "Vì ABCD nội tiếp đường tròn, nên tổng hai góc đối A + C = 180°.
-=> góc C = 180° - 105° = 75°."
+        "solution": "Vì ABCD nội tiếp đường tròn, nên tổng hai góc đối A + C = 180°.\n=> góc C = 180° - 105° = 75°."
     },
     {
         "id": 13,
@@ -228,8 +217,7 @@ Số đo góc D = 360° - (70° + 110° + 85°) = 360° - 265° = 95°."
         "formula_hint": "x_A + x_C = x_B + x_D",
         "correct_answer": 3,
         "unit": "",
-        "solution": "Tính chất trung điểm 2 đường chéo (x_A+x_C = x_B+x_D).
-=> 1 + 6 = 4 + x_D => x_D = 7 - 4 = 3."
+        "solution": "Tính chất trung điểm 2 đường chéo (x_A+x_C = x_B+x_D).\n=> 1 + 6 = 4 + x_D => x_D = 7 - 4 = 3."
     },
     {
         "id": 14,
@@ -241,8 +229,7 @@ Số đo góc D = 360° - (70° + 110° + 85°) = 360° - 265° = 95°."
         "formula_hint": "Đáy là hình vuông, S = a²",
         "correct_answer": 64,
         "unit": "cm²",
-        "solution": "Hình chóp tứ giác đều có đáy là hình vuông.
-Diện tích đáy S = 8² = 64 cm²."
+        "solution": "Hình chóp tứ giác đều có đáy là hình vuông.\nDiện tích đáy S = 8² = 64 cm²."
     },
     {
         "id": 15,
@@ -254,8 +241,7 @@ Diện tích đáy S = 8² = 64 cm²."
         "formula_hint": "d = √(a² + b²)",
         "correct_answer": 5,
         "unit": "",
-        "solution": "Trong mặt phẳng Oxy, hình chữ nhật vẫn giữ nguyên tính chất.
-Đường chéo d = √(3² + 4²) = √25 = 5."
+        "solution": "Trong mặt phẳng Oxy, hình chữ nhật vẫn giữ nguyên tính chất.\nĐường chéo d = √(3² + 4²) = √25 = 5."
     }
 ]
 
@@ -840,35 +826,7 @@ def get_quiz():
             "difficulty": "Cơ bản"
         }
     ],
-            "answer": "S = a × b",
-            "explain": "Diện tích hình chữ nhật bằng tích hai kích thước chiều dài và chiều rộng: S = a × b.",
-            "difficulty": "Cơ bản"
-        },
-        {
-            "id": "EX_02",
-            "question": "Khi Hình bình hành có hai đường chéo vuông góc với nhau thì nó trở thành hình nào?",
-            "options": ["Hình chữ nhật", "Hình thang cân", "Hình thoi", "Hình vuông"],
-            "answer": "Hình thoi",
-            "explain": "Theo dấu hiệu nhận biết: Hình bình hành có hai đường chéo vuông góc là hình thoi.",
-            "difficulty": "Cơ bản"
-        },
-        {
-            "id": "EX_03",
-            "question": "Tứ giác có 4 góc vuông và 4 cạnh bằng nhau là hình gì?",
-            "options": ["Hình bình hành", "Hình chữ nhật", "Hình thoi", "Hình vuông"],
-            "answer": "Hình vuông",
-            "explain": "Hình vuông là tứ giác đặc biệt có đồng thời 4 góc vuông và 4 cạnh bằng nhau.",
-            "difficulty": "Cơ bản"
-        },
-        {
-            "id": "EX_04",
-            "question": "Hình thang có hai góc kề một đáy bằng nhau thì trở thành hình gì?",
-            "options": ["Hình bình hành", "Hình thang cân", "Hình thang vuông", "Hình chữ nhật"],
-            "answer": "Hình thang cân",
-            "explain": "Theo định nghĩa: Hình thang có hai góc kề một đáy bằng nhau là hình thang cân.",
-            "difficulty": "Cơ bản"
-        }
-    ]
+
 
     all_questions = quiz_items + extra_questions
     return jsonify(all_questions)
