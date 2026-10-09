@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Hệ thống Học tập & Đồ thị Tri thức Tứ giác - Neo4j Cloud</title>
-    
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -12,14 +13,23 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet">
     <!-- Vis-network CDN -->
     <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        /* Fix full height for Bootstrap Tabs so vis-network renders correctly when switching tabs */
+        .tab-content { display: flex; flex-direction: column; }
+        .tab-content > .tab-pane { display: none; width: 100%; }
+        .tab-content > .tab-pane.active { display: flex !important; flex-direction: column; flex-grow: 1; }
+    </style>
 </head>
+
 <body>
 
     <!-- TOP NAVIGATION BAR -->
@@ -31,11 +41,13 @@
             <div>
                 <h1 class="brand-title mb-0">HỆ THỐNG HÌNH HỌC TỨ GIÁC</h1>
                 <div class="d-flex align-items-center gap-2 brand-subtitle">
-                    <span id="cloudStatusBadge" class="badge bg-success-subtle text-success border border-success-subtle">
-                        <span class="spinner-grow spinner-grow-sm me-1 text-success" style="width: 8px; height: 8px;"></span>
+                    <span id="cloudStatusBadge"
+                        class="badge bg-success-subtle text-success border border-success-subtle">
+                        <span class="spinner-grow spinner-grow-sm me-1 text-success"
+                            style="width: 8px; height: 8px;"></span>
                         Neo4j Aura Cloud: Đang kết nối...
                     </span>
-                    <span class="text-white-50 d-none d-md-inline">| Đồ án NoSQL Nhóm 08</span>
+                    <span class="text-white-50 d-none d-md-inline">| Đồ án NoSQL Nhóm 07</span>
                 </div>
             </div>
         </div>
@@ -50,8 +62,10 @@
                 <div class="user-meta">
                     <span class="player-name" id="playerDisplay">Học viên</span>
                     <div class="d-flex align-items-center gap-1">
-                        <span class="badge score-badge"><i class="bi bi-star-fill text-warning me-1"></i><span id="scoreDisplay">0</span>đ</span>
-                        <span class="badge coin-badge"><i class="bi bi-coin text-warning me-1"></i><span id="coinsDisplay">0</span></span>
+                        <span class="badge score-badge"><i class="bi bi-star-fill text-warning me-1"></i><span
+                                id="scoreDisplay">0</span>đ</span>
+                        <span class="badge coin-badge"><i class="bi bi-coin text-warning me-1"></i><span
+                                id="coinsDisplay">0</span></span>
                     </div>
                 </div>
             </div>
@@ -75,32 +89,38 @@
     <nav class="sub-nav px-3 py-2 border-bottom bg-white">
         <ul class="nav nav-pills custom-tabs gap-1" id="mainTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="tree-tab" data-bs-toggle="tab" data-bs-target="#tab-tree" type="button" role="tab">
+                <button class="nav-link active" id="tree-tab" data-bs-toggle="tab" data-bs-target="#tab-tree"
+                    type="button" role="tab">
                     <i class="bi bi-diagram-2 me-1 text-primary"></i> <span>1. Sơ Đồ Phân Cấp & Tra Cứu</span>
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="kg-tab" data-bs-toggle="tab" data-bs-target="#tab-kg" type="button" role="tab">
+                <button class="nav-link" id="kg-tab" data-bs-toggle="tab" data-bs-target="#tab-kg" type="button"
+                    role="tab">
                     <i class="bi bi-bounding-box-circles me-1 text-info"></i> <span>2. Đồ Thị Tri Thức Toàn Cảnh</span>
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="inference-tab" data-bs-toggle="tab" data-bs-target="#tab-inference" type="button" role="tab" onclick="loadInferenceProperties()">
+                <button class="nav-link" id="inference-tab" data-bs-toggle="tab" data-bs-target="#tab-inference"
+                    type="button" role="tab" onclick="loadInferenceProperties()">
                     <i class="bi bi-cpu me-1 text-warning"></i> <span>3. Nhận Diện Theo Tính Chất</span>
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="compare-tab" data-bs-toggle="tab" data-bs-target="#tab-compare" type="button" role="tab" onclick="loadCompareShapes()">
+                <button class="nav-link" id="compare-tab" data-bs-toggle="tab" data-bs-target="#tab-compare"
+                    type="button" role="tab" onclick="loadCompareShapes()">
                     <i class="bi bi-intersect me-1 text-success"></i> <span>4. So Sánh 2 Tứ Giác</span>
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="stats-tab" data-bs-toggle="tab" data-bs-target="#tab-stats" type="button" role="tab" onclick="loadDatabaseStats()">
+                <button class="nav-link" id="stats-tab" data-bs-toggle="tab" data-bs-target="#tab-stats" type="button"
+                    role="tab" onclick="loadDatabaseStats()">
                     <i class="bi bi-database-check me-1 text-danger"></i> <span>5. Thống Kê CSDL Neo4j</span>
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="canvas-tab" data-bs-toggle="tab" data-bs-target="#tab-canvas" type="button" role="tab">
+                <button class="nav-link" id="canvas-tab" data-bs-toggle="tab" data-bs-target="#tab-canvas" type="button"
+                    role="tab">
                     <i class="bi bi-vector-pen me-1 text-primary"></i> <span>6. Bảng Vẽ Nhận Diện</span>
                 </button>
             </li>
@@ -125,11 +145,13 @@
                             <span class="legend-badge badge-king">Hình vuông (Toàn diện)</span>
                         </div>
                         <div class="legend-hint mt-1 small text-muted">
-                            <i class="bi bi-hand-index-thumb"></i> Chạm vào một hình để xem tính chất, công thức và mẹo giải nhanh!
+                            <i class="bi bi-hand-index-thumb"></i> Chạm vào một hình để xem tính chất, công thức và mẹo
+                            giải nhanh!
                         </div>
                     </div>
                     <div class="network-controls">
-                        <button class="btn btn-sm btn-light border shadow-sm" onclick="resetTreeZoom()" title="Vừa màn hình">
+                        <button class="btn btn-sm btn-light border shadow-sm" onclick="resetTreeZoom()"
+                            title="Vừa màn hình">
                             <i class="bi bi-arrows-fullscreen"></i>
                         </button>
                     </div>
@@ -144,7 +166,8 @@
                             </div>
                             <h5 class="fw-bold text-dark">Chọn một hình học trên sơ đồ</h5>
                             <p class="text-secondary small px-3">
-                                Khám phá định nghĩa chuẩn, công thức chu vi & diện tích, tính chất kế thừa và mẹo ghi nhớ hình học độc quyền.
+                                Khám phá định nghĩa chuẩn, công thức chu vi & diện tích, tính chất kế thừa và mẹo ghi
+                                nhớ hình học độc quyền.
                             </p>
                         </div>
                     </div>
@@ -156,20 +179,28 @@
         <div class="tab-pane fade h-100" id="tab-kg" role="tabpanel">
             <div class="h-100 d-flex flex-column position-relative">
                 <!-- Thanh công cụ lọc Knowledge Graph -->
-                <div class="kg-toolbar p-2 px-3 bg-white border-bottom d-flex flex-wrap align-items-center justify-content-between gap-2">
+                <div
+                    class="kg-toolbar p-2 px-3 bg-white border-bottom d-flex flex-wrap align-items-center justify-content-between gap-2">
                     <div class="d-flex align-items-center gap-3 flex-wrap">
-                        <span class="fw-bold small text-dark"><i class="bi bi-sliders me-1"></i> Lọc tầng thực thể:</span>
+                        <span class="fw-bold small text-dark"><i class="bi bi-sliders me-1"></i> Lọc tầng thực
+                            thể:</span>
                         <div class="form-check form-check-inline form-switch m-0">
-                            <input class="form-check-input" type="checkbox" id="filterProps" checked onchange="loadKnowledgeGraph()">
-                            <label class="form-check-label small fw-semibold text-success" for="filterProps">Tính chất (Property)</label>
+                            <input class="form-check-input" type="checkbox" id="filterProps" checked
+                                onchange="loadKnowledgeGraph()">
+                            <label class="form-check-label small fw-semibold text-success" for="filterProps">Tính chất
+                                (Property)</label>
                         </div>
                         <div class="form-check form-check-inline form-switch m-0">
-                            <input class="form-check-input" type="checkbox" id="filterFormulas" checked onchange="loadKnowledgeGraph()">
-                            <label class="form-check-label small fw-semibold text-warning" for="filterFormulas">Công thức (Formula)</label>
+                            <input class="form-check-input" type="checkbox" id="filterFormulas" checked
+                                onchange="loadKnowledgeGraph()">
+                            <label class="form-check-label small fw-semibold text-warning" for="filterFormulas">Công
+                                thức (Formula)</label>
                         </div>
                         <div class="form-check form-check-inline form-switch m-0">
-                            <input class="form-check-input" type="checkbox" id="filterConditions" checked onchange="loadKnowledgeGraph()">
-                            <label class="form-check-label small fw-semibold text-danger" for="filterConditions">Dấu hiệu nhận biết (Condition)</label>
+                            <input class="form-check-input" type="checkbox" id="filterConditions" checked
+                                onchange="loadKnowledgeGraph()">
+                            <label class="form-check-label small fw-semibold text-danger" for="filterConditions">Dấu
+                                hiệu nhận biết (Condition)</label>
                         </div>
                     </div>
                     <div class="d-flex gap-2">
@@ -207,7 +238,8 @@
                             <div>
                                 <h4 class="fw-bold mb-0">Hệ Thống Suy Luận Nhận Diện Tứ Giác</h4>
                                 <p class="text-secondary small mb-0">
-                                    Dựa trên các tính chất bài toán cho, Knowledge Graph Neo4j sẽ tự động đối sánh đồ thị và suy luận ra hình học chính xác nhất.
+                                    Dựa trên các tính chất bài toán cho, Knowledge Graph Neo4j sẽ tự động đối sánh đồ
+                                    thị và suy luận ra hình học chính xác nhất.
                                 </p>
                             </div>
                         </div>
@@ -216,11 +248,13 @@
                         <!-- Các nhóm tính chất -->
                         <div id="propertiesCheckboxContainer" class="row g-3">
                             <div class="col-12 text-center py-4 text-muted">
-                                <div class="spinner-border spinner-border-sm text-primary me-2"></div> Đang tải danh sách tính chất từ Neo4j Aura Cloud...
+                                <div class="spinner-border spinner-border-sm text-primary me-2"></div> Đang tải danh
+                                sách tính chất từ Neo4j Aura Cloud...
                             </div>
                         </div>
 
-                        <div class="d-flex align-items-center justify-content-between mt-4 pt-3 border-top flex-wrap gap-2">
+                        <div
+                            class="d-flex align-items-center justify-content-between mt-4 pt-3 border-top flex-wrap gap-2">
                             <button class="btn btn-outline-secondary" onclick="clearSelectedProperties()">
                                 <i class="bi bi-arrow-counterclockwise me-1"></i> Xóa tất cả lựa chọn
                             </button>
@@ -248,7 +282,8 @@
                             <div>
                                 <h4 class="fw-bold mb-0">So Sánh Đối Chiếu Hai Loại Tứ Giác</h4>
                                 <p class="text-secondary small mb-0">
-                                    Phân tích giao tập tính chất (kế thừa từ tổ tiên chung) và tính chất riêng biệt của từng loại hình.
+                                    Phân tích giao tập tính chất (kế thừa từ tổ tiên chung) và tính chất riêng biệt của
+                                    từng loại hình.
                                 </p>
                             </div>
                         </div>
@@ -293,7 +328,8 @@
                                 <div>
                                     <h4 class="fw-bold mb-0">Giám Sát & Thống Kê Cơ Sở Dữ Liệu Neo4j Cloud</h4>
                                     <p class="text-secondary small mb-0">
-                                        Theo dõi cấu trúc thực thể và liên kết trực tiếp trên máy chủ đám mây Neo4j Aura Free.
+                                        Theo dõi cấu trúc thực thể và liên kết trực tiếp trên máy chủ đám mây Neo4j Aura
+                                        Free.
                                     </p>
                                 </div>
                             </div>
@@ -333,7 +369,8 @@
                         <!-- Bảng chi tiết Node & Relationship -->
                         <div class="row g-4">
                             <div class="col-md-6">
-                                <h6 class="fw-bold mb-2"><i class="bi bi-tag-fill text-primary me-1"></i> Phân Bố Nhãn Node (Node Labels):</h6>
+                                <h6 class="fw-bold mb-2"><i class="bi bi-tag-fill text-primary me-1"></i> Phân Bố Nhãn
+                                    Node (Node Labels):</h6>
                                 <div class="table-responsive border rounded-3">
                                     <table class="table table-hover table-sm mb-0 align-middle">
                                         <thead class="table-light">
@@ -347,7 +384,8 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <h6 class="fw-bold mb-2"><i class="bi bi-arrows-angle-expand text-success me-1"></i> Phân Bố Loại Quan Hệ (Relationship Types):</h6>
+                                <h6 class="fw-bold mb-2"><i class="bi bi-arrows-angle-expand text-success me-1"></i>
+                                    Phân Bố Loại Quan Hệ (Relationship Types):</h6>
                                 <div class="table-responsive border rounded-3">
                                     <table class="table table-hover table-sm mb-0 align-middle">
                                         <thead class="table-light">
@@ -372,19 +410,26 @@
                 <!-- Vùng Vẽ (Bên trái) -->
                 <div class="flex-grow-1 position-relative p-3 d-flex flex-column" style="min-height: 400px;">
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h5 class="fw-bold text-primary mb-0"><i class="bi bi-grid-3x3 me-2"></i>Bảng Vẽ Hình Học Tương Tác</h5>
-                        <button class="btn btn-sm btn-outline-secondary" onclick="resetCanvas()"><i class="bi bi-arrow-counterclockwise"></i> Khôi phục hình</button>
+                        <h5 class="fw-bold text-primary mb-0"><i class="bi bi-grid-3x3 me-2"></i>Bảng Vẽ Hình Học Tương
+                            Tác</h5>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="resetCanvas()"><i
+                                class="bi bi-arrow-counterclockwise"></i> Khôi phục hình</button>
                     </div>
-                    <div id="canvas-container" class="border border-2 rounded bg-light flex-grow-1 position-relative" style="overflow: hidden;">
-                        <canvas id="geometryCanvas" class="position-absolute top-0 start-0 w-100 h-100" style="cursor: crosshair; touch-action: none;"></canvas>
+                    <div id="canvas-container" class="border border-2 rounded bg-light flex-grow-1 position-relative"
+                        style="overflow: hidden;">
+                        <canvas id="geometryCanvas" class="position-absolute top-0 start-0 w-100 h-100"
+                            style="cursor: crosshair; touch-action: none;"></canvas>
                     </div>
                     <div class="text-muted small mt-2">
-                        <i class="bi bi-info-circle text-primary"></i> <strong>Hướng dẫn:</strong> Dùng chuột (hoặc chạm tay) để kéo thả 4 điểm góc <strong>A, B, C, D</strong> trên lưới tọa độ. Hệ thống sẽ ngay lập tức tính toán các góc, kích thước và nhận dạng ra tên hình.
+                        <i class="bi bi-info-circle text-primary"></i> <strong>Hướng dẫn:</strong> Dùng chuột (hoặc chạm
+                        tay) để kéo thả 4 điểm góc <strong>A, B, C, D</strong> trên lưới tọa độ. Hệ thống sẽ ngay lập
+                        tức tính toán các góc, kích thước và nhận dạng ra tên hình.
                     </div>
                 </div>
 
                 <!-- Bảng Nhận Diện & Chi Tiết (Bên phải) -->
-                <div class="details-panel shadow-sm border-start bg-white" id="canvas-details-wrapper" style="width: 380px; overflow-y: auto;">
+                <div class="details-panel shadow-sm border-start bg-white" id="canvas-details-wrapper"
+                    style="width: 380px; overflow-y: auto;">
                     <div class="p-3">
                         <h6 class="fw-bold text-uppercase text-secondary mb-3 pb-2 border-bottom">Kết Quả Phân Tích</h6>
                         <div id="canvasResultContainer">
@@ -413,17 +458,26 @@
                 <div class="modal-body p-3">
                     <!-- Filter bar -->
                     <div class="d-flex flex-wrap gap-1 mb-3" id="exerciseFilterBar">
-                        <button class="btn btn-sm btn-dark filter-btn active" onclick="filterExercises('all', this)">Tất cả</button>
-                        <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterExercises('SH_TRAP', this)">Hình thang</button>
-                        <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterExercises('SH_ISOTRAP', this)">Hình thang cân</button>
-                        <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterExercises('SH_PARA', this)">Hình bình hành</button>
-                        <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterExercises('SH_RECT', this)">Hình chữ nhật</button>
-                        <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterExercises('SH_RHOMBUS', this)">Hình thoi</button>
-                        <button class="btn btn-sm btn-outline-secondary filter-btn" onclick="filterExercises('SH_SQUARE', this)">Hình vuông</button>
+                        <button class="btn btn-sm btn-dark filter-btn active" onclick="filterExercises('all', this)">Tất
+                            cả</button>
+                        <button class="btn btn-sm btn-outline-secondary filter-btn"
+                            onclick="filterExercises('SH_TRAP', this)">Hình thang</button>
+                        <button class="btn btn-sm btn-outline-secondary filter-btn"
+                            onclick="filterExercises('SH_ISOTRAP', this)">Hình thang cân</button>
+                        <button class="btn btn-sm btn-outline-secondary filter-btn"
+                            onclick="filterExercises('SH_PARA', this)">Hình bình hành</button>
+                        <button class="btn btn-sm btn-outline-secondary filter-btn"
+                            onclick="filterExercises('SH_RECT', this)">Hình chữ nhật</button>
+                        <button class="btn btn-sm btn-outline-secondary filter-btn"
+                            onclick="filterExercises('SH_RHOMBUS', this)">Hình thoi</button>
+                        <button class="btn btn-sm btn-outline-secondary filter-btn"
+                            onclick="filterExercises('SH_SQUARE', this)">Hình vuông</button>
                     </div>
 
                     <div id="exerciseListContainer">
-                        <div class="text-center py-4 text-muted"><div class="spinner-border spinner-border-sm text-primary"></div> Đang tải bài toán...</div>
+                        <div class="text-center py-4 text-muted">
+                            <div class="spinner-border spinner-border-sm text-primary"></div> Đang tải bài toán...
+                        </div>
                     </div>
                 </div>
             </div>
@@ -484,4 +538,5 @@
     <script src="/static/js/app.js"></script>
     <script src="/static/js/canvas.js"></script>
 </body>
+
 </html>

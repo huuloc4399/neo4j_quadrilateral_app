@@ -93,6 +93,15 @@ function onPointerDown(e) {
 function onPointerMove(e) {
     if (draggedPoint) {
         const pos = getMousePos(e);
+        
+        // Hút điểm vào lưới (Grid Snapping) để tạo hình vuông vắn, cân đối
+        const SNAP = GRID_SIZE / 2; // Gắn vào mỗi 25px
+        const snapX = Math.round(pos.x / SNAP) * SNAP;
+        const snapY = Math.round(pos.y / SNAP) * SNAP;
+        
+        if (Math.abs(pos.x - snapX) < 15) pos.x = snapX;
+        if (Math.abs(pos.y - snapY) < 15) pos.y = snapY;
+
         // Giới hạn điểm không vượt quá khung vẽ
         draggedPoint.x = Math.max(POINT_RADIUS, Math.min(canvas.width - POINT_RADIUS, pos.x));
         draggedPoint.y = Math.max(POINT_RADIUS, Math.min(canvas.height - POINT_RADIUS, pos.y));
