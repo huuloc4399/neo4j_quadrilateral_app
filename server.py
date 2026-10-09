@@ -743,7 +743,7 @@ def get_quiz():
             })
 
     # Thêm các câu hỏi mở rộng thú vị
-        extra_questions = [
+    extra_questions = [
         {
             "id": "EX_01",
             "grade": 6,
@@ -825,7 +825,7 @@ def get_quiz():
             "explain": "Thể tích khối chóp luôn bằng một phần ba tích của diện tích đáy và chiều cao.",
             "difficulty": "Cơ bản"
         }
-    ],
+    ]
 
 
     all_questions = quiz_items + extra_questions
